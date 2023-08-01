@@ -3,18 +3,18 @@
 
 import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtrinsicStatus } from '../interfaces/author';
-import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
-import type { Address, Call, H256, Hash } from '../interfaces/runtime';
-import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
-import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces';
-import type { Registry } from './registry';
+import type { ExtrinsicStatus } from '../interfaces/author/index.js';
+import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
+import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
+import type { Registry } from './registry.js';
 
 export interface ISubmittableResult {
-  readonly dispatchError?: DispatchError;
-  readonly dispatchInfo?: DispatchInfo;
+  readonly dispatchError?: DispatchError | undefined;
+  readonly dispatchInfo?: DispatchInfo | undefined;
   readonly events: EventRecord[];
-  readonly internalError?: Error;
+  readonly internalError?: Error | undefined;
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;
@@ -22,7 +22,7 @@ export interface ISubmittableResult {
   readonly isInBlock: boolean;
   readonly isWarning: boolean;
   readonly txHash: Hash;
-  readonly txIndex?: number;
+  readonly txIndex?: number | undefined;
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;

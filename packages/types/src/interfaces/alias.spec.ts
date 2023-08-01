@@ -1,11 +1,10 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TypeRegistry } from '../create/registry';
-import { getAliasTypes } from './alias';
+import { TypeRegistry } from '../create/registry.js';
+import { getAliasTypes } from './alias.js';
 
 const registry = new TypeRegistry();
 

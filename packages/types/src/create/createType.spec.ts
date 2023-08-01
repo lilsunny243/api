@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { CodecSet, Int } from '@polkadot/types-codec';
+import type { CodecSet } from '@polkadot/types-codec';
 
-import { createClass, TypeRegistry } from '.';
+import { Int } from '@polkadot/types-codec';
+
+import { createClass, TypeRegistry } from './index.js';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();
@@ -197,14 +198,14 @@ describe('createType', (): void => {
     it('allows for re-registration of a type', (): void => {
       const balDef = registry.createType('Balance');
 
-      expect(balDef instanceof registry.createClass('Balance'));
+      expect(balDef instanceof registry.createClass('Balance')).toBe(true);
       expect(balDef.bitLength()).toEqual(128);
 
       registry.register({ Balance: 'u32' });
 
       const balu32 = registry.createType('Balance');
 
-      expect(balu32 instanceof registry.createClass('Balance'));
+      expect(balu32 instanceof registry.createClass('Balance')).toBe(true);
       expect(balu32.bitLength()).toEqual(32);
     });
 

@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { UnsubscribePromise } from '../types';
+import type { UnsubscribePromise } from '../types/index.js';
 
-import { Combinator } from './Combinator';
+import { Combinator } from './Combinator.js';
 
 describe('Combinator', (): void => {
   let fns: ((value: any) => void)[] = [];
@@ -22,7 +21,7 @@ describe('Combinator', (): void => {
     fns = [];
   });
 
-  it('it triggers on all values', async (): Promise<void> => {
+  it('triggers on all values', async (): Promise<void> => {
     await new Promise<boolean>((resolve) => {
       let count = 0;
       const combinator = new Combinator(
@@ -91,6 +90,7 @@ describe('Combinator', (): void => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('unsubscribes as required', async (): Promise<void> => {
     await new Promise<void>((resolve) => {
       // eslint-disable-next-line @typescript-eslint/require-await
@@ -99,8 +99,7 @@ describe('Combinator', (): void => {
         mocker,
         // eslint-disable-next-line @typescript-eslint/require-await
         async (): UnsubscribePromise => (): void => undefined
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ], (value: any[]): void => {
+      ], (_: any[]): void => {
         // ignore
       });
 

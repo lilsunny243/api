@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global it */
+
 // Shamelessly copied from @polkadot/util/test
 
 import { formatDecimal, formatNumber } from '@polkadot/util';
@@ -13,12 +15,13 @@ const PRE_PAD = 32;
 
 function loop (count: number, inputs: unknown[][], exec: ExecFn): [number, unknown[]] {
   const start = performance.now();
-  const results = new Array<unknown>(inputs.length);
+  const inputsCount = inputs.length;
+  const results = new Array<unknown>(inputsCount);
 
   for (let i = 0; i < count; i++) {
-    const result = exec(...inputs[i % inputs.length]);
+    const result = exec(...inputs[i % inputsCount]);
 
-    if (i < inputs.length) {
+    if (i < inputsCount) {
       results[i] = result;
     }
   }
@@ -42,7 +45,7 @@ ${formatFixed(micro).padStart(NUM_PAD + PRE_PAD + 1)} μs/op`;
 }
 
 export function perf (name: string, count: number, inputs: unknown[][], exec: ExecFn): void {
-  const test = process.env.GITHUB_REPOSITORY
+  const test = process.env['GITHUB_REPOSITORY']
     ? it.skip
     : it;
 

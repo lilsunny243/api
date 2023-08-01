@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Implementation of the Parity codec",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/types",
   "repository": {
     "directory": "packages/types",
@@ -20,20 +18,20 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.14.3-7-x",
+  "version": "10.9.2-8-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
-    "@polkadot/keyring": "^10.4.2",
-    "@polkadot/types-augment": "9.14.3-7-x",
-    "@polkadot/types-codec": "9.14.3-7-x",
-    "@polkadot/types-create": "9.14.3-7-x",
-    "@polkadot/util": "^10.4.2",
-    "@polkadot/util-crypto": "^10.4.2",
-    "rxjs": "^7.8.0"
+    "@polkadot/keyring": "^12.3.2",
+    "@polkadot/types-augment": "10.9.2-8-x",
+    "@polkadot/types-codec": "10.9.2-8-x",
+    "@polkadot/types-create": "10.9.2-8-x",
+    "@polkadot/util": "^12.3.2",
+    "@polkadot/util-crypto": "^12.3.2",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^10.4.2",
-    "@polkadot/types-support": "9.14.3-7-x"
+    "@polkadot/keyring": "^12.3.2",
+    "@polkadot/types-support": "10.9.2-8-x"
   }
 }

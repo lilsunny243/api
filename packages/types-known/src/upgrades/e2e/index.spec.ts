@@ -1,17 +1,20 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { HexString } from '@polkadot/util/types';
-import type { ChainUpgradesExpanded } from '../types';
+import type { ChainUpgradesExpanded } from '../types.js';
 
 import fs from 'node:fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { stringify } from '@polkadot/util';
 
-import * as allMan from '../manual';
-import * as allGen from '.';
+import * as allMan from '../manual/index.js';
+import * as allGen from './index.js';
 
-const keys = <const> ['kusama', 'polkadot', 'westend'];
+const keys = ['kusama', 'polkadot', 'westend'] as const;
 const urls = {
   kusama: 'wss://kusama-rpc.polkadot.io',
   polkadot: 'wss://rpc.polkadot.io',
@@ -35,16 +38,15 @@ for (const chain of keys) {
   // Auto-generated from on-chain data & manual definitions, do not edit
   /* eslint-disable quotes, comma-spacing */
 
-  import type { ChainUpgradesExpanded } from '../types';
+  import type { ChainUpgradesExpanded } from '../types.js';
 
-  const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
-
-  export default upgrades;
+  export const upgrades: ChainUpgradesExpanded = ${stringify(final, 2)};
   `);
       await api.disconnect();
     });
 
     for (const [blockNumber, specVersion] of allMan[chain]) {
+      // eslint-disable-next-line jest/expect-expect
       it(`blockNumber=${blockNumber}, specVersion=${specVersion}`, async (): Promise<void> => {
         const found = avail.find(([n, s]) => n === blockNumber && s === specVersion);
 

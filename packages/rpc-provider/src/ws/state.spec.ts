@@ -1,10 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { WsProvider } from './';
+import { WsProvider } from './index.js';
 
 describe('state', (): void => {
   it('requires an ws:// prefixed endpoint', (): void => {

@@ -1,15 +1,13 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import type { CodecClass, CodecTo } from '@polkadot/types-codec/types';
+import type { ITuple } from '../types/interfaces.js';
 
 import { TypeRegistry } from '@polkadot/types';
 import { BTreeSet, Enum, I32, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
-
-import { ITuple } from '../types/interfaces';
 
 const registry = new TypeRegistry();
 

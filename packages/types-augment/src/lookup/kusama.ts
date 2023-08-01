@@ -5,18 +5,18 @@
 
 export default {
   /**
-   * Lookup107: kusama_runtime::SessionKeys
+   * Lookup96: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
-    grandpa: 'SpFinalityGrandpaAppPublic',
+    grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
     imOnline: 'PalletImOnlineSr25519AppSr25519Public',
-    paraValidator: 'PolkadotPrimitivesV2ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV2AssignmentAppPublic',
+    paraValidator: 'PolkadotPrimitivesV4ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV4AssignmentAppPublic',
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup150: kusama_runtime::OriginCaller
+   * Lookup127: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -24,9 +24,9 @@ export default {
       __Unused1: 'Null',
       __Unused2: 'Null',
       __Unused3: 'Null',
-      __Unused4: 'Null',
-      __Unused5: 'Null',
       Void: 'SpCoreVoid',
+      __Unused5: 'Null',
+      __Unused6: 'Null',
       __Unused7: 'Null',
       __Unused8: 'Null',
       __Unused9: 'Null',
@@ -34,8 +34,8 @@ export default {
       __Unused11: 'Null',
       __Unused12: 'Null',
       __Unused13: 'Null',
-      Council: 'PalletCollectiveRawOrigin',
-      TechnicalCommittee: 'PalletCollectiveRawOrigin',
+      __Unused14: 'Null',
+      __Unused15: 'Null',
       __Unused16: 'Null',
       __Unused17: 'Null',
       __Unused18: 'Null',
@@ -123,19 +123,19 @@ export default {
     }
   },
   /**
-   * Lookup154: kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup129: kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan']
   },
   /**
-   * Lookup231: kusama_runtime::ProxyType
+   * Lookup208: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
   },
   /**
-   * Lookup241: kusama_runtime::NposCompactSolution24
+   * Lookup217: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -164,7 +164,53 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup880: kusama_runtime::Runtime
+   * Lookup543: kusama_runtime::RuntimeHoldReason
+   **/
+  KusamaRuntimeRuntimeHoldReason: {
+    _enum: {
+      __Unused0: 'Null',
+      __Unused1: 'Null',
+      __Unused2: 'Null',
+      __Unused3: 'Null',
+      __Unused4: 'Null',
+      __Unused5: 'Null',
+      __Unused6: 'Null',
+      __Unused7: 'Null',
+      __Unused8: 'Null',
+      __Unused9: 'Null',
+      __Unused10: 'Null',
+      __Unused11: 'Null',
+      __Unused12: 'Null',
+      __Unused13: 'Null',
+      __Unused14: 'Null',
+      __Unused15: 'Null',
+      __Unused16: 'Null',
+      __Unused17: 'Null',
+      __Unused18: 'Null',
+      __Unused19: 'Null',
+      __Unused20: 'Null',
+      __Unused21: 'Null',
+      __Unused22: 'Null',
+      __Unused23: 'Null',
+      __Unused24: 'Null',
+      __Unused25: 'Null',
+      __Unused26: 'Null',
+      __Unused27: 'Null',
+      __Unused28: 'Null',
+      __Unused29: 'Null',
+      __Unused30: 'Null',
+      __Unused31: 'Null',
+      __Unused32: 'Null',
+      __Unused33: 'Null',
+      __Unused34: 'Null',
+      __Unused35: 'Null',
+      __Unused36: 'Null',
+      __Unused37: 'Null',
+      Nis: 'PalletNisHoldReason'
+    }
+  },
+  /**
+   * Lookup869: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

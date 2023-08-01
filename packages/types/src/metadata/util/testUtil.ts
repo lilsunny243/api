@@ -1,77 +1,100 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+/* global describe, it, expect */
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { Check } from './types';
+import type { MetaVersionAll } from '../versions.js';
+import type { Check } from './types.js';
 
 import fs from 'node:fs';
-import path from 'node:path';
 
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
-import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
-import { Metadata } from '../Metadata';
-import { getUniqTypes } from './getUniqTypes';
+import { TypeRegistry } from '../../create/index.js';
+import { unwrapStorageSi, unwrapStorageType } from '../../util/index.js';
+import { Metadata } from '../Metadata.js';
+import { getUniqTypes } from './getUniqTypes.js';
+
+interface MetadataJsonDef {
+  lookup: unknown;
+
+  [key: string]: unknown;
+}
+
+interface MetadataJson {
+  metadata: {
+    v9: MetadataJsonDef;
+    v10: MetadataJsonDef;
+    v11: MetadataJsonDef;
+    v12: MetadataJsonDef;
+    v13: MetadataJsonDef;
+    v14: MetadataJsonDef;
+    v15: MetadataJsonDef;
+  }
+}
+
+function getJsonName (version: number, type: string, sub: 'json' | 'types'): URL {
+  return new URL(`../../../../types-support/src/metadata/v${version}/${type}-${sub}.json`, import.meta.url);
+}
 
 function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {
-  fs.writeFileSync(
-    path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-${sub}.json`),
-    stringify(json, 2),
-    { flag: 'w' }
-  );
+  fs.writeFileSync(getJsonName(version, type, sub), stringify(json, 2), { flag: 'w' });
+}
+
+function readJson <T = unknown> (version: number, type: string, sub: 'json' | 'types'): T {
+  return JSON.parse(
+    fs.readFileSync(getJsonName(version, type, sub), 'utf-8')
+  ) as unknown as T;
 }
 
 /** @internal */
-export function decodeLatestMeta (registry: Registry, type: string, version: number, { compare, data, types }: Check): void {
+export function decodeLatestMeta (registry: Registry, type: string, version: MetaVersionAll, { data }: Check): void {
   const metadata = new Metadata(registry, data);
 
   registry.setMetadata(metadata);
 
   it('decodes latest substrate properly', (): void => {
-    const json = metadata.toJSON() as Record<string, Record<string, Record<string, string>>>;
+    const json = metadata.toJSON() as unknown as MetadataJson;
 
     delete json.metadata[`v${metadata.version}`].lookup;
 
     expect(metadata.version).toBe(version);
 
     try {
-      expect(json).toEqual(compare);
+      expect(json).toEqual(readJson(version, type, 'json'));
     } catch (error) {
-      if (process.env.GITHUB_REPOSITORY) {
-        console.error(stringify(json));
-
+      if (process.env['GITHUB_REPOSITORY']) {
         throw error;
       }
 
+      console.error(error);
       writeJson(json, version, type, 'json');
     }
   });
 
-  it('decodes latest types correctly', (): void => {
-    if (types) {
+  if (version >= 14) {
+    it('decodes latest types correctly', (): void => {
       const json = metadata.asLatest.lookup.types.toJSON();
 
       try {
-        expect(json).toEqual(types);
+        expect(json).toEqual(readJson(version, type, 'types'));
       } catch (error) {
-        if (process.env.GITHUB_REPOSITORY) {
-          console.error(stringify(metadata.toJSON()));
-
+        if (process.env['GITHUB_REPOSITORY']) {
           throw error;
         }
 
+        console.error(error);
         writeJson(json, version, type, 'types');
       }
-    }
-  });
+    });
+  }
 }
 
 /** @internal */
-export function toLatest (registry: Registry, version: number, { data }: Check, withThrow = true): void {
+export function toLatest (registry: Registry, version: MetaVersionAll, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, data);
 
@@ -154,7 +177,7 @@ function serialize (registry: Registry, { data }: Check): void {
   });
 }
 
-export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
+export function testMeta (version: MetaVersionAll, matchers: Record<string, Check>, withFallback = true): void {
   describe(`MetadataV${version}`, (): void => {
     for (const [type, matcher] of Object.entries(matchers)) {
       const registry = new TypeRegistry();

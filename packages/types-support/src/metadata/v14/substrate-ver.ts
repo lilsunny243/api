@@ -18,7 +18,7 @@ export default {
     ],
     [
       "0x37e397fc7c91f5e4",
-      1
+      2
     ],
     [
       "0x40fe3ad401f8959a",
@@ -27,6 +27,10 @@ export default {
     [
       "0xd2bc9897eed08f15",
       3
+    ],
+    [
+      "0xbe9fb0c91a8046cf",
+      1
     ],
     [
       "0xf78b278be53f454c",
@@ -57,12 +61,20 @@ export default {
       1
     ],
     [
+      "0x8453b50b22293977",
+      1
+    ],
+    [
       "0x68b66ba122c93fa7",
       2
     ],
     [
       "0x37c8bb1350a9a2a8",
-      3
+      4
+    ],
+    [
+      "0x8a8047a53a8277ec",
+      1
     ],
     [
       "0xf3ff14d5ab527059",
@@ -74,7 +86,7 @@ export default {
     ],
     [
       "0x91d5df18b0d2cf58",
-      1
+      2
     ],
     [
       "0xab3c0572291feb8b",

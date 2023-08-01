@@ -8,17 +8,17 @@ import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersi
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
-import type { VersionedRegistry } from './types';
+import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types/index.js';
+import type { VersionedRegistry } from './types.js';
 
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { Decorate } from './Decorate';
+import { Decorate } from './Decorate.js';
 
 const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
@@ -77,8 +77,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.#onProviderConnect();
+      this.#onProviderConnect().catch(noop);
     }
   }
 
@@ -97,7 +96,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
-    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions));
+    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions), this._options.noInitWarn);
   }
 
   /**
@@ -265,11 +264,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const sections = Object.keys(source.rpc);
     const rpcs: string[] = [];
 
-    for (let s = 0; s < sections.length; s++) {
+    for (let s = 0, scount = sections.length; s < scount; s++) {
       const section = sections[s];
       const methods = Object.keys((source.rpc as unknown as Record<string, Record<string, unknown>>)[section]);
 
-      for (let m = 0; m < methods.length; m++) {
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
         rpcs.push(`${section}_${methods[m]}`);
       }
     }
@@ -373,10 +372,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _subscribeHealth (): void {
+    this._unsubscribeHealth();
+
     // Only enable the health keepalive on WS, not needed on HTTP
     this.#healthTimer = this.hasSubscriptions
       ? setInterval((): void => {
-        firstValueFrom(this._rpcCore.system.health.raw()).catch(() => undefined);
+        firstValueFrom(this._rpcCore.system.health.raw()).catch(noop);
       }, KEEPALIVE_INTERVAL)
       : null;
   }
@@ -428,7 +429,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #onProviderDisconnect (): void {
     this._isConnected.next(false);
-    this._unsubscribeHealth();
+    this._unsubscribe();
     this.emit('disconnected');
   }
 

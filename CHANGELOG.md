@@ -1,5 +1,209 @@
 # CHANGELOG
 
+## 10.9.1 Jun 12, 2023
+
+Changes:
+
+- Adjust object index access for stricter tsconfig settings
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.8.1 Jun 5, 2023
+
+Contributed:
+
+- Added support for extended Contracts ABI V4 definitions (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Cleanup (some) linting overrides
+
+
+## 10.7.3 May 28, 2023
+
+Changes:
+
+- Ensure that `.paymentInfo` never mutates the underlying/existing signature
+
+
+## 10.7.2 May 21, 2023
+
+Contributed:
+
+- Allow `api.setSigner(...)` to clear existing (Thanks to https://github.com/polymath-eric)
+
+Changes:
+
+- Adjust `@polkadot/types-create` exports with no duplicates
+
+
+## 10.7.1 May 13, 2023
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Add `module` to `package.json` export map (ESM-only)
+
+
+## 10.6.1 May 7, 2023
+
+Contributed:
+
+- Extract runtime details for custom documentation (Thanks to https://github.com/FlorianFranzen)
+
+Changes:
+
+- Apply historic `Scheduled` types for Kusama (as reported, non-comprehensive)
+- Adjust Deno types inside `WsProvider`
+- Allow parsing of (experimental) metadata v15
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.5.1 Apr 29, 2023
+
+Changes:
+
+- Default to hex-only in `Int/UInt.toJSON` for > 128-bit values
+- Allow for disabling of `isPedantic` storage checks in API options
+- Adjust usage of `objectSpread`, default to runtime as required
+- Adjust compilation output for `__internal__` class fields
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.4.1 Apr 22, 2023
+
+Contributed:
+
+- Apply `noInitWarn` flag to signed extension warnings (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Adjust `AccountId20` detection with partial match
+- Cleanup block author extraction derives
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Drop support for Node 14 (EOL 30 Apr 2023)
+
+
+## 10.3.4 Apr 16, 2023
+
+Changes:
+
+- Ensure block author extract uses the correct as-at block construction state
+
+
+## 10.3.3 Apr 15, 2023
+
+Contributed:
+
+- Add support for Fungibles runtime api (Thanks to https://github.com/bkontur)
+- Update Nimbus Collator lookups (Thanks to https://github.com/grenade)
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Minimal support for a `@tsconfig/stricter` setup
+
+
+## 10.3.2 Apr 10, 2023
+
+Changes:
+
+- Revert throw on MSB BitVec (`toHuman()` output is still incorrect)
+
+
+## 10.3.1 Apr 9, 2023
+
+Changes:
+
+- Add `BitVec.toBoolArray()` helper function
+- Tie down `BitVec` from metadata to only allow (default) Lsb
+- Support for `TransactionPaymentApi/4`
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.2.2 Apr 1, 2023
+
+Contributed:
+
+- Support expanded Nimbus lookups to Collators (Thanks to https://github.com/grenade)
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.2.1 Mar 25, 2023
+
+Contributed:
+
+- Add support for new Frontier `AccountId20` mapping (Thanks to https://github.com/koushiro)
+- Adjust MMR RPCs & runtime calls to align with latest (Thanks to https://github.com/Lederstrumpf)
+
+Changes:
+
+- Use Promise resolve/reject to track state in typegen on-chain metadata retrievals
+- Adjust signing header retrieval, catering for discarded state fallbacks
+- Add support for `ParachainHost v4` runtime calls
+- Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
+- Add not-to-be-used `ISize` type support (same as `USize`, throwing on use - added for completeness)
+- Ensure `AccountId20.eq` does not fail on null/undefined inputs
+- Expand tests around `toU8a()` where the `isBare` flag is is being used
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 10.1.4 Mar 19, 2023
+
+Changes:
+
+- Add methods for v2 `Metadata_*` runtime calls
+
+
+## 10.1.3 Mar 15, 2023
+
+Changes:
+
+- Remove incorrect `.module.` specifiers in typegen code
+- Mark unsafe RPC methods (and include in `rpc.md` generation)
+
+
+## 10.1.2 Mar 11, 2023
+
+Changes:
+
+- Adjust type exports to remove invalid generated exports from `/src/`
+- Apply missing `/*#__PURE__*/` exports in `api-derive`
+
+
+## 10.1.1 Mar 11, 2023
+
+Contributed:
+
+- Fix yargs usage inside ESM modules (Thanks to https://github.com/conr2d)
+
+Changes:
+
+- Align runtime APIs with latest Substrate
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Use consistent `.js` imports in source files (TS moduleResolution)
+
+
+## 10.0.1 Mar 4, 2023
+
+Contributed:
+
+- Expose per-endpoint stats for providers (Thanks to https://github.com/jeluard)
+- Adjust ink! primitive extraction for v4 (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Ensure that provider disconnect clears all subscriptions
+- Adjust typegen to internally use `import()` (catering for ESM provided types)
+- Swap TS -> JS compiler to use tsc (from babel)
+- Adjust all tests to use `node:test` runner (ESM variants)
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 9.14.2 Feb 19, 2023
 
 Changes:

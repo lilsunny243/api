@@ -1,14 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { TypeRegistry } from '../../../create';
-import { getHasher } from './getHasher';
+import { TypeRegistry } from '../../../create/index.js';
+import { getHasher } from './getHasher.js';
 
 describe('getHasher', (): void => {
   const registry = new TypeRegistry();

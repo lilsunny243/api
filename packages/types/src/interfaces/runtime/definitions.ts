@@ -4,11 +4,9 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
-import { runtime } from './runtime';
+import { runtime } from './runtime.js';
 
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',
@@ -50,7 +48,8 @@ export const knownOrigins: Record<string, string> = {
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, numberTypes, {
+  types: {
+    ...numberTypes,
     AccountId: 'AccountId32',
     AccountId20: 'GenericEthereumAccountId',
     AccountId32: 'GenericAccountId32',
@@ -228,5 +227,5 @@ export default {
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',
     Consensus: '(ConsensusEngineId, Bytes)'
-  })
+  }
 } as Definitions;

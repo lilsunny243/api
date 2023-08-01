@@ -9,7 +9,7 @@ export default {
   "specName": "kusama",
   "implName": "parity-kusama",
   "authoringVersion": 2,
-  "specVersion": 9370,
+  "specVersion": 9410,
   "implVersion": 0,
   "apis": [
     [
@@ -18,7 +18,7 @@ export default {
     ],
     [
       "0x37e397fc7c91f5e4",
-      1
+      2
     ],
     [
       "0x40fe3ad401f8959a",
@@ -34,15 +34,15 @@ export default {
     ],
     [
       "0xaf2c0297a23e6d3d",
-      2
+      4
     ],
     [
       "0x49eaaf1b548a0cb0",
-      1
+      2
     ],
     [
       "0x91d5df18b0d2cf58",
-      1
+      2
     ],
     [
       "0xed99c5acb25eedf5",
@@ -66,7 +66,7 @@ export default {
     ],
     [
       "0x37c8bb1350a9a2a8",
-      3
+      4
     ],
     [
       "0xf3ff14d5ab527059",
@@ -81,6 +81,6 @@ export default {
       1
     ]
   ],
-  "transactionVersion": 19,
+  "transactionVersion": 21,
   "stateVersion": 0
 };

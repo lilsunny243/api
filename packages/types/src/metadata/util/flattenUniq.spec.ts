@@ -1,10 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { flattenUniq } from '.';
+import { flattenUniq } from './index.js';
 
 describe('flattenUniq', (): void => {
   it('flattens nested arrays', (): void => {

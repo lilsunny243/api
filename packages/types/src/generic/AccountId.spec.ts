@@ -1,15 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { Raw } from '@polkadot/types-codec';
 import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
 
-import { TypeRegistry } from '../create';
+import { TypeRegistry } from '../create/index.js';
 
 describe('AccountId', (): void => {
   const registry = new TypeRegistry();

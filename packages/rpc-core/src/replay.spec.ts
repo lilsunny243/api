@@ -1,15 +1,14 @@
 // Copyright 2017-2023 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { RpcInterface } from './types';
+import type { RpcInterface } from './types/index.js';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('replay', (): void => {
   const registry = new TypeRegistry();
@@ -18,7 +17,7 @@ describe('replay', (): void => {
 
   beforeEach((): void => {
     provider = new MockProvider(registry);
-    rpc = new RpcCore('653', registry, provider) as (RpcCore & RpcInterface);
+    rpc = new RpcCore('653', registry, { provider }) as (RpcCore & RpcInterface);
   });
 
   afterEach(async () => {
@@ -27,9 +26,9 @@ describe('replay', (): void => {
 
   it('returns the observable value', async (): Promise<void> => {
     await new Promise<boolean>((resolve) => {
-      rpc.system.chain().subscribe((value: any): void => {
+      rpc.system.chain().subscribe((value?: { toString: () => string }): void => {
         if (value) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+          // eslint-disable-next-line jest/no-conditional-expect
           expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
           resolve(true);
         }
@@ -57,7 +56,6 @@ describe('replay', (): void => {
   });
 
   it('unsubscribes as required', async (): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     rpc.provider.unsubscribe = jest.fn();
 
     await new Promise<boolean>((resolve) => {
@@ -66,7 +64,6 @@ describe('replay', (): void => {
 
         // There's a promise inside .unsubscribe(), wait a bit (> 2s)
         setTimeout((): void => {
-          // eslint-disable-next-line @typescript-eslint/unbound-method
           expect(rpc.provider.unsubscribe).toHaveBeenCalled();
           resolve(true);
         }, 3500);

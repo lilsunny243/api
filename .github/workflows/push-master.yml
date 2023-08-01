@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         step: ['build:release']
-    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_SCRIPTS: false
@@ -28,5 +27,5 @@ jobs:
         node-version: 'lts/*'
     - name: ${{ matrix.step }}
       run: |
-        yarn install --immutable | grep -v 'YN0013'
+        yarn install --immutable
         yarn ${{ matrix.step }}

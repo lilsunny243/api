@@ -1,10 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TypeRegistry } from '../create';
+import { TypeRegistry } from '../create/index.js';
 
 describe('ChainProperties', (): void => {
   const registry = new TypeRegistry();
@@ -56,7 +55,7 @@ describe('ChainProperties', (): void => {
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
   });
 
-  it('has a sane toHuman', (): void => {
+  it('has a sane toHuman (single tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
         ss58Format: 42,
@@ -70,7 +69,7 @@ describe('ChainProperties', (): void => {
     });
   });
 
-  it('has a sane toHuman', (): void => {
+  it('has a sane toHuman (multiple tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
         ss58Format: 2,

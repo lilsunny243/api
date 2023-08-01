@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { MockProvider } from '.';
+import { MockProvider } from './index.js';
 
 describe('unsubscribe', (): void => {
   const registry = new TypeRegistry();
@@ -31,12 +30,14 @@ describe('unsubscribe', (): void => {
     await mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)
       .catch((error): boolean => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;
       });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('unsubscribes successfully', async (): Promise<void> => {
     await mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id);
   });
@@ -47,6 +48,7 @@ describe('unsubscribe', (): void => {
         mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
       )
       .catch((error): boolean => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;

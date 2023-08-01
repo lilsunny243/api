@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionCall, DefinitionRpc, DefinitionsCall, DefinitionsCallEntry, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types';
+import type { DefinitionCall, DefinitionRpc, DefinitionsCall, DefinitionsCallEntry, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types/index.js';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { getTypeDef, TypeRegistry } from '../create';
-import { Metadata } from '../metadata';
-import * as all from './definitions';
+import { getTypeDef, TypeRegistry } from '../create/index.js';
+import { Metadata } from '../metadata/index.js';
+import * as all from './definitions.js';
 
 interface CheckDef {
   rpc: DefinitionsRpc;
@@ -53,7 +53,7 @@ describe('type definitions', (): void => {
   );
 
   for (const [key, { types }] of allTypes) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       const typesKeys = Object.keys(types).filter((type) =>
         // meant to fail
         type !== 'ExtrinsicUnknown' &&
@@ -80,11 +80,11 @@ describe('rpc definitions', (): void => {
   );
 
   for (const [section, { rpc }] of rpcs) {
-    describe(section, (): void => {
+    describe(`${section}`, (): void => {
       const methodsEntries = Object.entries<DefinitionRpc>(rpc);
 
       for (const [method, { params, type }] of methodsEntries) {
-        describe(method, (): void => {
+        describe(`${method}`, (): void => {
           // We cannot constuct V0, so just ignore
           if (section !== 'state' || method !== 'getMetadata') {
             it(`output ${type} is known`, (): void => {
@@ -114,20 +114,25 @@ describe('runtime definitions', (): void => {
   );
 
   for (const [key, { runtime }] of runtimes) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       const versionsEntries = Object.entries<DefinitionsCallEntry[]>(runtime);
 
       for (const [key, versions] of versionsEntries) {
-        describe(key, (): void => {
+        describe(`${key}`, (): void => {
           for (const { methods, version } of versions) {
             describe(`version ${version}`, (): void => {
               const methodsEntries = Object.entries<DefinitionCall>(methods);
 
               for (const [key, { params, type }] of methodsEntries) {
-                describe(key, (): void => {
-                  it(`output ${type} is known`, (): void => {
-                    expect(() => inspectType(type)).not.toThrow();
-                  });
+                describe(`${key}`, (): void => {
+                  // Applied from runtime, used in Funglibles
+                  const skipInspectType = type === 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>' || type === 'Result<XcmVersionedMultiAssets, FungiblesAccessError>';
+
+                  if (!skipInspectType) {
+                    it(`output ${type} is known`, (): void => {
+                      expect(() => inspectType(type)).not.toThrow();
+                    });
+                  }
 
                   if (params.length) {
                     describe('params', (): void => {

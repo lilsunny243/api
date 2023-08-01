@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { TypeDefInfo } from '@polkadot/types-create';
 
-import { createClass, getTypeClass, TypeRegistry } from '.';
+import { createClass, getTypeClass, TypeRegistry } from './index.js';
 
 describe('createClass', (): void => {
   const registry = new TypeRegistry();

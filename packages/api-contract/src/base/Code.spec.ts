@@ -1,23 +1,19 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import fs from 'node:fs';
-import path from 'node:path';
-import process from 'node:process';
 
 import { toPromiseMethod } from '@polkadot/api';
 
 import v0contractFlipper from '../test/contracts/ink/v0/flipper.contract.json' assert { type: 'json' };
 import v0abiFlipper from '../test/contracts/ink/v0/flipper.json' assert { type: 'json' };
 import v1contractFlipper from '../test/contracts/ink/v1/flipper.contract.json' assert { type: 'json' };
-import { Code } from './Code';
-import { mockApi } from './mock';
+import { Code } from './Code.js';
+import { mockApi } from './mock.js';
 
-// FIXME When Jest is removed with ESM tests, this should be converted to use import.meta.url
-const v0wasmFlipper = fs.readFileSync(path.join(process.cwd(), 'packages/api-contract/src/test/contracts/ink/v0/flipper.wasm'), 'utf-8');
+const v0wasmFlipper = fs.readFileSync(new URL('../test/contracts/ink/v0/flipper.wasm', import.meta.url), 'utf-8');
 
 describe('Code', (): void => {
   it('can construct with an individual ABI/WASM combo', (): void => {
@@ -32,7 +28,7 @@ describe('Code', (): void => {
     ).not.toThrow();
   });
 
-  it.only('can construct with an .contract ABI (v1)', (): void => {
+  it('can construct with an .contract ABI (v1)', (): void => {
     expect(
       () => new Code(mockApi, v1contractFlipper as Record<string, unknown>, null, toPromiseMethod)
     ).not.toThrow();

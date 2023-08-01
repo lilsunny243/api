@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TypeRegistry } from '../create';
-import { GenericAccountIndex as AccountIndex } from '../generic';
-import { GenericEthereumAccountId as AccountId, GenericEthereumLookupSource as Address } from '.';
+import type { GenericAccountIndex as AccountIndex } from '../generic/index.js';
+import type { GenericEthereumAccountId as AccountId, GenericEthereumLookupSource as Address } from './index.js';
+
+import { TypeRegistry } from '../create/index.js';
 
 describe('EthereumLookupSource', (): void => {
   const registry = new TypeRegistry();

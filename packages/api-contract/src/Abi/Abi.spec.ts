@@ -1,20 +1,18 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import type { Registry } from '@polkadot/types/types';
 
 import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import abis from '../test/contracts';
-import { Abi } from '.';
+import abis from '../test/contracts/index.js';
+import { Abi } from './index.js';
 
 interface SpecDef {
   messages: {
@@ -45,12 +43,9 @@ interface JSONAbi {
   }
 }
 
-// FIXME When Jest is removed with ESM tests, this should be converted to use import.meta.url
-const cmpPath = path.join(process.cwd(), 'packages/api-contract/src/test/compare');
-
 function stringifyInfo (key: string, value: unknown): unknown {
-  return key === 'info'
-    ? TypeDefInfo[value as number]
+  return key === 'info' && typeof value === 'number'
+    ? TypeDefInfo[value]
     : value;
 }
 
@@ -93,13 +88,16 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI: ${abiName}`, (): void => {
         const abi = new Abi(abiJson);
         const registryJson = stringifyJson(abi.registry);
-        const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
-        const cmpText = fs.readFileSync(cmpFile, 'utf-8');
+        const cmpFile = new URL(`../test/compare/${abiName}.test.json`, import.meta.url);
 
         try {
-          expect(JSON.parse(registryJson)).toEqual(JSON.parse(cmpText));
+          expect(
+            JSON.parse(registryJson)
+          ).toEqual(
+            JSON.parse(fs.readFileSync(cmpFile, 'utf-8'))
+          );
         } catch (error) {
-          if (process.env.GITHUB_REPOSITORY) {
+          if (process.env['GITHUB_REPOSITORY']) {
             console.error(registryJson);
 
             throw error;
@@ -112,8 +110,8 @@ describe('Abi', (): void => {
   });
 
   it('has the correct hash for the source', (): void => {
-    const abi = new Abi(abis.ink_v0_flipperBundle);
-    const bundle = abis.ink_v0_flipperBundle as unknown as JSONAbi;
+    const abi = new Abi(abis['ink_v0_flipperBundle']);
+    const bundle = abis['ink_v0_flipperBundle'] as unknown as JSONAbi;
 
     // manual
     expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));

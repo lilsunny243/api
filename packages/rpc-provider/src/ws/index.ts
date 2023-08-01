@@ -1,20 +1,19 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable camelcase */
+import type { Class } from '@polkadot/util/types';
+import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
+import { EventEmitter } from 'eventemitter3';
 
-import EventEmitter from 'eventemitter3';
-
-import { isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
+import { isChildClass, isNull, isUndefined, logger, noop, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
-import { RpcCoder } from '../coder';
-import defaults from '../defaults';
-import { LRUCache } from '../lru';
-import { getWSErrorString } from './errors';
+import { RpcCoder } from '../coder/index.js';
+import defaults from '../defaults.js';
+import { LRUCache } from '../lru.js';
+import { getWSErrorString } from './errors.js';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -26,7 +25,7 @@ interface WsStateAwaiting {
   method: string;
   params: unknown[];
   start: number;
-  subscription?: SubscriptionHandler;
+  subscription?: SubscriptionHandler | undefined;
 }
 
 interface WsStateSubscription extends SubscriptionHandler {
@@ -45,10 +44,9 @@ const RETRY_DELAY = 2_500;
 const DEFAULT_TIMEOUT_MS = 60 * 1000;
 const TIMEOUT_INTERVAL = 5_000;
 
-const MEGABYTE = 1024 * 1024;
-
 const l = logger('api-ws');
 
+/** @internal Clears a Record<*> of all keys, optionally with all callback on clear */
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
   Object.keys(record).forEach((key): void => {
     if (cb) {
@@ -57,6 +55,11 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
 
     delete record[key];
   });
+}
+
+/** @internal Creates a default/empty stats object */
+function defaultEndpointStats (): EndpointStats {
+  return { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 };
 }
 
 /**
@@ -88,10 +91,11 @@ export class WsProvider implements ProviderInterface {
   readonly #handlers: Record<string, WsStateAwaiting> = {};
   readonly #isReadyPromise: Promise<WsProvider>;
   readonly #stats: ProviderStats;
-  readonly #waitingForId: Record<string, JsonRpcResponse> = {};
+  readonly #waitingForId: Record<string, JsonRpcResponse<unknown>> = {};
 
   #autoConnectMs: number;
   #endpointIndex: number;
+  #endpointStats: EndpointStats;
   #isConnected = false;
   #subscriptions: Record<string, WsStateSubscription> = {};
   #timeoutId?: ReturnType<typeof setInterval> | null = null;
@@ -128,14 +132,13 @@ export class WsProvider implements ProviderInterface {
     this.#websocket = null;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: defaultEndpointStats()
     };
+    this.#endpointStats = defaultEndpointStats();
     this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
-    if (autoConnectMs > 0) {
-      this.connectWithRetry().catch((): void => {
-        // does not throw
-      });
+    if (autoConnectMs && autoConnectMs > 0) {
+      this.connectWithRetry().catch(noop);
     }
 
     this.#isReadyPromise = new Promise((resolve): void => {
@@ -174,11 +177,19 @@ export class WsProvider implements ProviderInterface {
     return this.#isReadyPromise;
   }
 
+  public get endpoint (): string {
+    return this.#endpoints[this.#endpointIndex];
+  }
+
   /**
    * @description Returns a clone of the object
    */
   public clone (): WsProvider {
     return new WsProvider(this.#endpoints);
+  }
+
+  protected selectEndpointIndex (endpoints: string[]): number {
+    return (this.#endpointIndex + 1) % endpoints.length;
   }
 
   /**
@@ -193,22 +204,15 @@ export class WsProvider implements ProviderInterface {
     }
 
     try {
-      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
+      this.#endpointIndex = this.selectEndpointIndex(this.#endpoints);
 
-      // the as typeof WebSocket here is Deno-specific - not available on the globalThis
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
-        ? new WebSocket(this.#endpoints[this.#endpointIndex])
+      // the as here is Deno-specific - not available on the globalThis
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as unknown as Class<WebSocket>, WebSocket)
+        ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-        : new WebSocket(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers, undefined, {
-          // default: true
-          fragmentOutgoingMessages: true,
-          // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
-          fragmentationThreshold: 1 * MEGABYTE,
-          // default: 1MiB (also align with maxReceivedMessageSize)
-          maxReceivedFrameSize: 24 * MEGABYTE,
-          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that, 16M is ok there)
-          maxReceivedMessageSize: 24 * MEGABYTE
+        // @ts-ignore - WS may be an instance of ws, which supports options
+        : new WebSocket(this.endpoint, undefined, {
+          headers: this.#headers
         });
 
       if (this.#websocket) {
@@ -236,11 +240,9 @@ export class WsProvider implements ProviderInterface {
     if (this.#autoConnectMs > 0) {
       try {
         await this.connect();
-      } catch (error) {
+      } catch {
         setTimeout((): void => {
-          this.connectWithRetry().catch((): void => {
-            // does not throw
-          });
+          this.connectWithRetry().catch(noop);
         }, this.#autoConnectMs);
       }
     }
@@ -281,6 +283,10 @@ export class WsProvider implements ProviderInterface {
     };
   }
 
+  public get endpointStats (): EndpointStats {
+    return this.#endpointStats;
+  }
+
   /**
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterfaceEmitted} type Event
@@ -302,6 +308,7 @@ export class WsProvider implements ProviderInterface {
    * @param subscription Subscription details (internally used)
    */
   public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
+    this.#endpointStats.requests++;
     this.#stats.total.requests++;
 
     const [id, body] = this.#coder.encodeJson(method, params);
@@ -316,6 +323,7 @@ export class WsProvider implements ProviderInterface {
         this.#callCache.set(body, resultPromise);
       }
     } else {
+      this.#endpointStats.cached++;
       this.#stats.total.cached++;
     }
 
@@ -344,9 +352,15 @@ export class WsProvider implements ProviderInterface {
           start: Date.now(),
           subscription
         };
-        this.#stats.total.bytesSent += body.length;
+
+        const bytesSent = body.length;
+
+        this.#endpointStats.bytesSent += bytesSent;
+        this.#stats.total.bytesSent += bytesSent;
+
         this.#websocket.send(body);
       } catch (error) {
+        this.#endpointStats.errors++;
         this.#stats.total.errors++;
 
         reject(error);
@@ -373,6 +387,7 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    this.#endpointStats.subscriptions++;
     this.#stats.total.subscriptions++;
 
     // subscriptions are not cached, LRU applies to .at(<blockHash>) only
@@ -401,7 +416,7 @@ export class WsProvider implements ProviderInterface {
       return this.isConnected && !isNull(this.#websocket)
         ? this.send<boolean>(method, [id])
         : true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -411,7 +426,7 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketClose = (event: CloseEvent): void => {
-    const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+    const error = new Error(`disconnected from ${this.endpoint}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
 
     if (this.#autoConnectMs > 0) {
       l.error(error.message);
@@ -432,8 +447,6 @@ export class WsProvider implements ProviderInterface {
       this.#timeoutId = null;
     }
 
-    this.#emit('disconnected');
-
     // reject all hanging requests
     eraseRecord(this.#handlers, (h) => {
       try {
@@ -445,11 +458,14 @@ export class WsProvider implements ProviderInterface {
     });
     eraseRecord(this.#waitingForId);
 
+    // Reset stats for active endpoint
+    this.#endpointStats = defaultEndpointStats();
+
+    this.#emit('disconnected');
+
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
-        this.connectWithRetry().catch(() => {
-          // does not throw
-        });
+        this.connectWithRetry().catch(noop);
       }, this.#autoConnectMs);
     }
   };
@@ -462,16 +478,19 @@ export class WsProvider implements ProviderInterface {
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
 
-    this.#stats.total.bytesRecv += message.data.length;
+    const bytesRecv = message.data.length;
 
-    const response = JSON.parse(message.data) as JsonRpcResponse;
+    this.#endpointStats.bytesRecv += bytesRecv;
+    this.#stats.total.bytesRecv += bytesRecv;
+
+    const response = JSON.parse(message.data) as JsonRpcResponse<string>;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
       : this.#onSocketMessageSubscribe(response);
   };
 
-  #onSocketMessageResult = (response: JsonRpcResponse): void => {
+  #onSocketMessageResult = (response: JsonRpcResponse<string>): void => {
     const handler = this.#handlers[response.id];
 
     if (!handler) {
@@ -482,7 +501,7 @@ export class WsProvider implements ProviderInterface {
 
     try {
       const { method, params, subscription } = handler;
-      const result = this.#coder.decodeResponse(response) as string;
+      const result = this.#coder.decodeResponse<string>(response);
 
       // first send the result - in case of subs, we may have an update
       // immediately if we have some queued results already
@@ -502,6 +521,7 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
+      this.#endpointStats.errors++;
       this.#stats.total.errors++;
 
       handler.callback(error as Error, undefined);
@@ -510,7 +530,7 @@ export class WsProvider implements ProviderInterface {
     delete this.#handlers[response.id];
   };
 
-  #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
+  #onSocketMessageSubscribe = (response: JsonRpcResponse<unknown>): void => {
     const method = ALIASES[response.method as string] || response.method || 'invalid';
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
@@ -532,6 +552,7 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
+      this.#endpointStats.errors++;
       this.#stats.total.errors++;
 
       handler.callback(error as Error, undefined);
@@ -543,12 +564,13 @@ export class WsProvider implements ProviderInterface {
       throw new Error('WebSocket cannot be null in onOpen');
     }
 
-    l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
+    l.debug(() => ['connected to', this.endpoint]);
 
     this.#isConnected = true;
 
-    this.#emit('connected');
     this.#resubscribe();
+
+    this.#emit('connected');
 
     return true;
   };
@@ -580,7 +602,7 @@ export class WsProvider implements ProviderInterface {
     const now = Date.now();
     const ids = Object.keys(this.#handlers);
 
-    for (let i = 0; i < ids.length; i++) {
+    for (let i = 0, count = ids.length; i < count; i++) {
       const handler = this.#handlers[ids[i]];
 
       if ((now - handler.start) > this.#timeout) {
@@ -590,6 +612,7 @@ export class WsProvider implements ProviderInterface {
           // ignore
         }
 
+        this.#endpointStats.timeout++;
         this.#stats.total.timeout++;
         delete this.#handlers[ids[i]];
       }

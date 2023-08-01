@@ -1,22 +1,21 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { TypeRegistry } from '@polkadot/types';
 import { UInt } from '@polkadot/types-codec';
 import { BN, BN_TWO, isBn } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
   it('fails on > MAX_SAFE_INTEGER and float', (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, -9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
     expect(() => new UInt(registry, 9.123)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
   });
@@ -124,8 +123,9 @@ describe('UInt', (): void => {
 
   it('converts to JSON representation based on size', (): void => {
     expect(new UInt(registry, '0x12345678', 32).toJSON()).toEqual(0x12345678);
-    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(78187493520); // '0x0000001234567890');
+    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(78187493520);
     expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
+    expect(new UInt(registry, 1, 256).toJSON()).toEqual('0x0000000000000000000000000000000000000000000000000000000000000001');
   });
 
   it('has a sane inspect', (): void => {

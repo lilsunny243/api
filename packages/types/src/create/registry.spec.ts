@@ -1,8 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
@@ -12,7 +11,7 @@ import { DoNotConstruct, Struct, Text, U32 } from '@polkadot/types-codec';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { TypeRegistry } from '.';
+import { TypeRegistry } from './index.js';
 
 describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();
@@ -32,7 +31,7 @@ describe('TypeRegistry', (): void => {
 
     expect(Type).toBeDefined();
     // eslint-disable-next-line no-prototype-builtins
-    expect(isChildClass(DoNotConstruct, Type));
+    expect(isChildClass(DoNotConstruct, Type)).toBe(true);
   });
 
   it('can register single type', (): void => {

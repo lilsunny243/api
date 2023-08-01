@@ -1,10 +1,9 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { augmentObject } from './augmentObject';
+import { augmentObject } from './augmentObject.js';
 
 describe('augmentObject', (): void => {
   let spy: ReturnType<typeof jest.spyOn>;

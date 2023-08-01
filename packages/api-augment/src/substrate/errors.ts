@@ -160,6 +160,120 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    assetConversion: {
+      /**
+       * Provided amount should be greater than or equal to the existential deposit/asset's
+       * minimal amount.
+       **/
+      AmountLessThanMinimal: AugmentedError<ApiType>;
+      /**
+       * Desired amount can't be equal to the pool reserve.
+       **/
+      AmountOutTooHigh: AugmentedError<ApiType>;
+      /**
+       * The minimal amount requirement for the first token in the pair wasn't met.
+       **/
+      AssetOneDepositDidNotMeetMinimum: AugmentedError<ApiType>;
+      /**
+       * The minimal amount requirement for the first token in the pair wasn't met.
+       **/
+      AssetOneWithdrawalDidNotMeetMinimum: AugmentedError<ApiType>;
+      /**
+       * The minimal amount requirement for the second token in the pair wasn't met.
+       **/
+      AssetTwoDepositDidNotMeetMinimum: AugmentedError<ApiType>;
+      /**
+       * The minimal amount requirement for the second token in the pair wasn't met.
+       **/
+      AssetTwoWithdrawalDidNotMeetMinimum: AugmentedError<ApiType>;
+      /**
+       * Provided assets are equal.
+       **/
+      EqualAssets: AugmentedError<ApiType>;
+      /**
+       * Insufficient liquidity in the pool.
+       **/
+      InsufficientLiquidity: AugmentedError<ApiType>;
+      /**
+       * Insufficient liquidity minted.
+       **/
+      InsufficientLiquidityMinted: AugmentedError<ApiType>;
+      /**
+       * The provided path must consists of 2 assets at least.
+       **/
+      InvalidPath: AugmentedError<ApiType>;
+      /**
+       * The provided path must consists of unique assets.
+       **/
+      NonUniquePath: AugmentedError<ApiType>;
+      /**
+       * Optimal calculated amount is less than desired.
+       **/
+      OptimalAmountLessThanDesired: AugmentedError<ApiType>;
+      /**
+       * An overflow happened.
+       **/
+      Overflow: AugmentedError<ApiType>;
+      /**
+       * It was not possible to calculate path data.
+       **/
+      PathError: AugmentedError<ApiType>;
+      /**
+       * Pool already exists.
+       **/
+      PoolExists: AugmentedError<ApiType>;
+      /**
+       * Only pools with native on one side are valid.
+       **/
+      PoolMustContainNativeCurrency: AugmentedError<ApiType>;
+      /**
+       * The pool doesn't exist.
+       **/
+      PoolNotFound: AugmentedError<ApiType>;
+      /**
+       * Provided maximum amount is not sufficient for swap.
+       **/
+      ProvidedMaximumNotSufficientForSwap: AugmentedError<ApiType>;
+      /**
+       * Calculated amount out is less than provided minimum amount.
+       **/
+      ProvidedMinimumNotSufficientForSwap: AugmentedError<ApiType>;
+      /**
+       * Reserve needs to always be greater than or equal to the existential deposit/asset's
+       * minimal amount.
+       **/
+      ReserveLeftLessThanMinimal: AugmentedError<ApiType>;
+      /**
+       * Desired amount can't be zero.
+       **/
+      WrongDesiredAmount: AugmentedError<ApiType>;
+      /**
+       * Amount can't be zero.
+       **/
+      ZeroAmount: AugmentedError<ApiType>;
+      /**
+       * Requested liquidity can't be zero.
+       **/
+      ZeroLiquidity: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    assetRate: {
+      /**
+       * The given asset ID already has an assigned conversion rate and cannot be re-created.
+       **/
+      AlreadyExists: AugmentedError<ApiType>;
+      /**
+       * The given asset ID is unknown.
+       **/
+      UnknownAssetId: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     assets: {
       /**
        * The asset-account already exists.
@@ -181,6 +295,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Account balance must be greater than or equal to the transfer amount.
        **/
       BalanceLow: AugmentedError<ApiType>;
+      /**
+       * Callback action resulted in error
+       **/
+      CallbackFailed: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
@@ -215,12 +333,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
-       * Unable to increment the consumer reference counters on the account. Either no provider
-       * reference exists to allow a non-zero balance of a non-self-sufficient asset, or the
-       * maximum number of consumers has been reached.
-       **/
-      NoProvider: AugmentedError<ApiType>;
-      /**
        * The asset should be frozen before the given operation.
        **/
       NotFrozen: AugmentedError<ApiType>;
@@ -228,6 +340,12 @@ declare module '@polkadot/api-base/types/errors' {
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
+      /**
+       * Unable to increment the consumer reference counters on the account. Either no provider
+       * reference exists to allow a non-zero balance of a non-self-sufficient asset, or one
+       * fewer then the maximum number of consumers has been reached.
+       **/
+      UnavailableConsumer: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
@@ -269,35 +387,43 @@ declare module '@polkadot/api-base/types/errors' {
     };
     balances: {
       /**
-       * Beneficiary account must pre-exist
+       * Beneficiary account must pre-exist.
        **/
       DeadAccount: AugmentedError<ApiType>;
       /**
-       * Value too low to create account due to existential deposit
+       * Value too low to create account due to existential deposit.
        **/
       ExistentialDeposit: AugmentedError<ApiType>;
       /**
-       * A vesting schedule already exists for this account
+       * A vesting schedule already exists for this account.
        **/
       ExistingVestingSchedule: AugmentedError<ApiType>;
+      /**
+       * Transfer/payment would kill account.
+       **/
+      Expendability: AugmentedError<ApiType>;
       /**
        * Balance too low to send value.
        **/
       InsufficientBalance: AugmentedError<ApiType>;
       /**
-       * Transfer/payment would kill account
-       **/
-      KeepAlive: AugmentedError<ApiType>;
-      /**
-       * Account liquidity restrictions prevent withdrawal
+       * Account liquidity restrictions prevent withdrawal.
        **/
       LiquidityRestrictions: AugmentedError<ApiType>;
       /**
-       * Number of named reserves exceed MaxReserves
+       * Number of freezes exceed `MaxFreezes`.
+       **/
+      TooManyFreezes: AugmentedError<ApiType>;
+      /**
+       * Number of holds exceed `MaxHolds`.
+       **/
+      TooManyHolds: AugmentedError<ApiType>;
+      /**
+       * Number of named reserves exceed `MaxReserves`.
        **/
       TooManyReserves: AugmentedError<ApiType>;
       /**
-       * Vesting balance too high to send value
+       * Vesting balance too high to send value.
        **/
       VestingBalance: AugmentedError<ApiType>;
       /**
@@ -387,7 +513,7 @@ declare module '@polkadot/api-base/types/errors' {
        * The contract's code was found to be invalid during validation or instrumentation.
        * 
        * The most likely cause of this is that an API was used which is not supported by the
-       * node. This hapens if an older node is used with a new version of ink!. Try updating
+       * node. This happens if an older node is used with a new version of ink!. Try updating
        * your node to the newest available version.
        * 
        * A more detailed error can be found on the node console if debug messages are enabled
@@ -419,14 +545,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DecodingFailed: AugmentedError<ApiType>;
       /**
-       * Removal of a contract failed because the deletion queue is full.
-       * 
-       * This can happen when calling `seal_terminate`.
-       * The queue is filled by deleting contracts and emptied by a fixed amount each block.
-       * Trying again during another block is the only way to resolve this issue.
-       **/
-      DeletionQueueFull: AugmentedError<ApiType>;
-      /**
        * A contract with the same AccountId already exists.
        **/
       DuplicateContract: AugmentedError<ApiType>;
@@ -452,11 +570,19 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxCallDepthReached: AugmentedError<ApiType>;
       /**
+       * A pending migration needs to complete before the extrinsic can be called.
+       **/
+      MigrationInProgress: AugmentedError<ApiType>;
+      /**
        * The chain does not provide a chain extension. Calling the chain extension results
        * in this error. Note that this usually  shouldn't happen as deploying such contracts
        * is rejected.
        **/
       NoChainExtension: AugmentedError<ApiType>;
+      /**
+       * Migrate dispatch call was attempted but no migration was performed.
+       **/
+      NoMigrationPerformed: AugmentedError<ApiType>;
       /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
@@ -475,6 +601,9 @@ declare module '@polkadot/api-base/types/errors' {
       RandomSubjectTooLong: AugmentedError<ApiType>;
       /**
        * A call tried to invoke a contract that is flagged as non-reentrant.
+       * The only other cause is that a call from a contract into the runtime tried to call back
+       * into `pallet-contracts`. This would make the whole pallet reentrant with regard to
+       * contract code execution which is not supported.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
       /**
@@ -564,6 +693,50 @@ declare module '@polkadot/api-base/types/errors' {
        * The given account did not vote on the poll.
        **/
       NotVoter: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    coreFellowship: {
+      /**
+       * The candidate has already been inducted. This should never happen since it would
+       * require a candidate (rank 0) to already be tracked in the pallet.
+       **/
+      AlreadyInducted: AugmentedError<ApiType>;
+      /**
+       * The given rank is invalid - this generally means it's not between 1 and `RANK_COUNT`.
+       **/
+      InvalidRank: AugmentedError<ApiType>;
+      /**
+       * The origin does not have enough permission to do this operation.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * No work needs to be done at present for this member.
+       **/
+      NothingDoing: AugmentedError<ApiType>;
+      /**
+       * The candidate has not been inducted, so cannot be offboarded from this pallet.
+       **/
+      NotTracked: AugmentedError<ApiType>;
+      /**
+       * Member's rank is not zero.
+       **/
+      Ranked: AugmentedError<ApiType>;
+      /**
+       * Operation cannot be done yet since not enough time has passed.
+       **/
+      TooSoon: AugmentedError<ApiType>;
+      /**
+       * Member's rank is not as expected - generally means that the rank provided to the call
+       * does not agree with the state of the system.
+       **/
+      UnexpectedRank: AugmentedError<ApiType>;
+      /**
+       * Member's rank is too low.
+       **/
+      Unranked: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1186,6 +1359,28 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    nftFractionalization: {
+      /**
+       * Asset ID does not correspond to locked NFT.
+       **/
+      IncorrectAssetId: AugmentedError<ApiType>;
+      /**
+       * NFT doesn't exist.
+       **/
+      NftNotFound: AugmentedError<ApiType>;
+      /**
+       * NFT has not yet been fractionalised.
+       **/
+      NftNotFractionalized: AugmentedError<ApiType>;
+      /**
+       * The signing account has no permission to do the operation.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     nfts: {
       /**
        * The provided Item was already used for claiming.
@@ -1215,6 +1410,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Collection ID is already taken.
        **/
       CollectionIdInUse: AugmentedError<ApiType>;
+      /**
+       * Can't delete non-empty collections.
+       **/
+      CollectionNotEmpty: AugmentedError<ApiType>;
       /**
        * The deadline has already expired.
        **/
@@ -1331,6 +1530,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Swap doesn't exist.
        **/
       UnknownSwap: AugmentedError<ApiType>;
+      /**
+       * The witness data should be provided.
+       **/
+      WitnessRequired: AugmentedError<ApiType>;
       /**
        * The delegate turned out to be different to what was expected.
        **/
@@ -1450,6 +1653,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotWithdrawAny: AugmentedError<ApiType>;
       /**
+       * The submitted changes to commission change rate are not allowed.
+       **/
+      CommissionChangeRateNotAllowed: AugmentedError<ApiType>;
+      /**
+       * Not enough blocks have surpassed since the last commission update.
+       **/
+      CommissionChangeThrottled: AugmentedError<ApiType>;
+      /**
+       * The supplied commission exceeds the max allowed commission.
+       **/
+      CommissionExceedsMaximum: AugmentedError<ApiType>;
+      /**
        * Some error occurred that should never happen. This should be reported to the
        * maintainers.
        **/
@@ -1467,6 +1682,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Pool id provided is not correct/usable.
        **/
       InvalidPoolId: AugmentedError<ApiType>;
+      /**
+       * The pool's max commission cannot be set higher than the existing value.
+       **/
+      MaxCommissionRestricted: AugmentedError<ApiType>;
       /**
        * Too many members in the pool or system.
        **/
@@ -1491,6 +1710,14 @@ declare module '@polkadot/api-base/types/errors' {
        * permissions for the pool. Members can never unbond to a value below `MinJoinBond`.
        **/
       MinimumBondNotMet: AugmentedError<ApiType>;
+      /**
+       * No commission current has been set.
+       **/
+      NoCommissionCurrentSet: AugmentedError<ApiType>;
+      /**
+       * There is no pending commission to claim.
+       **/
+      NoPendingCommission: AugmentedError<ApiType>;
       /**
        * A pool must be in [`PoolState::Destroying`] in order for the depositor to unbond or for
        * other members to be permissionlessly unbonded.
@@ -1536,6 +1763,95 @@ declare module '@polkadot/api-base/types/errors' {
        * A sub pool does not exist.
        **/
       SubPoolsNotFound: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    poolAssets: {
+      /**
+       * The asset-account already exists.
+       **/
+      AlreadyExists: AugmentedError<ApiType>;
+      /**
+       * The asset is not live, and likely being destroyed.
+       **/
+      AssetNotLive: AugmentedError<ApiType>;
+      /**
+       * Invalid metadata given.
+       **/
+      BadMetadata: AugmentedError<ApiType>;
+      /**
+       * Invalid witness data given.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * Account balance must be greater than or equal to the transfer amount.
+       **/
+      BalanceLow: AugmentedError<ApiType>;
+      /**
+       * Callback action resulted in error
+       **/
+      CallbackFailed: AugmentedError<ApiType>;
+      /**
+       * The origin account is frozen.
+       **/
+      Frozen: AugmentedError<ApiType>;
+      /**
+       * The asset status is not the expected status.
+       **/
+      IncorrectStatus: AugmentedError<ApiType>;
+      /**
+       * The asset ID is already taken.
+       **/
+      InUse: AugmentedError<ApiType>;
+      /**
+       * The asset is a live asset and is actively being used. Usually emit for operations such
+       * as `start_destroy` which require the asset to be in a destroying state.
+       **/
+      LiveAsset: AugmentedError<ApiType>;
+      /**
+       * Minimum balance should be non-zero.
+       **/
+      MinBalanceZero: AugmentedError<ApiType>;
+      /**
+       * The account to alter does not exist.
+       **/
+      NoAccount: AugmentedError<ApiType>;
+      /**
+       * The asset-account doesn't have an associated deposit.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
+      /**
+       * The signing account has no permission to do the operation.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * The asset should be frozen before the given operation.
+       **/
+      NotFrozen: AugmentedError<ApiType>;
+      /**
+       * No approval exists that would allow the transfer.
+       **/
+      Unapproved: AugmentedError<ApiType>;
+      /**
+       * Unable to increment the consumer reference counters on the account. Either no provider
+       * reference exists to allow a non-zero balance of a non-self-sufficient asset, or one
+       * fewer then the maximum number of consumers has been reached.
+       **/
+      UnavailableConsumer: AugmentedError<ApiType>;
+      /**
+       * The given asset ID is unknown.
+       **/
+      Unknown: AugmentedError<ApiType>;
+      /**
+       * The operation would result in funds being burned.
+       **/
+      WouldBurn: AugmentedError<ApiType>;
+      /**
+       * The source account would not survive the transfer and it needs to stay alive.
+       **/
+      WouldDie: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1846,6 +2162,65 @@ declare module '@polkadot/api-base/types/errors' {
        * Attempting to store empty data.
        **/
       Empty: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    salary: {
+      /**
+       * The account is already inducted.
+       **/
+      AlreadyInducted: AugmentedError<ApiType>;
+      /**
+       * The salary system has already been started.
+       **/
+      AlreadyStarted: AugmentedError<ApiType>;
+      /**
+       * There is no budget left for the payout.
+       **/
+      Bankrupt: AugmentedError<ApiType>;
+      /**
+       * The member's claim is zero.
+       **/
+      ClaimZero: AugmentedError<ApiType>;
+      /**
+       * The payment has neither failed nor succeeded yet.
+       **/
+      Inconclusive: AugmentedError<ApiType>;
+      /**
+       * The member does not have a current valid claim.
+       **/
+      NoClaim: AugmentedError<ApiType>;
+      /**
+       * The cycle is after that in which the payment was made.
+       **/
+      NotCurrent: AugmentedError<ApiType>;
+      NotInducted: AugmentedError<ApiType>;
+      /**
+       * The account is not a ranked member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * The payout cycles have not yet started.
+       **/
+      NotStarted: AugmentedError<ApiType>;
+      /**
+       * Cycle is not yet over.
+       **/
+      NotYet: AugmentedError<ApiType>;
+      /**
+       * There was some issue with the mechanism of payment.
+       **/
+      PayError: AugmentedError<ApiType>;
+      /**
+       * Current cycle's payment period is not yet begun.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * Current cycle's registration period is over.
+       **/
+      TooLate: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

@@ -1,16 +1,15 @@
 // Copyright 2017-2023 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { RpcInterface } from './types';
+import type { RpcInterface } from './types/index.js';
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('Cached Observables', (): void => {
   const registry = new TypeRegistry();
@@ -20,7 +19,7 @@ describe('Cached Observables', (): void => {
 
   beforeEach((): void => {
     provider = new MockProvider(registry);
-    rpc = new RpcCore('123', registry, provider) as (RpcCore & RpcInterface);
+    rpc = new RpcCore('123', registry, { provider }) as (RpcCore & RpcInterface);
   });
 
   afterEach(async () => {

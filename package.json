@@ -1,6 +1,9 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
+  "engines": {
+    "node": ">=18.14"
+  },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
   "packageManager": "yarn@3.2.0",
@@ -11,18 +14,18 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.14.3-7-x",
+  "version": "10.9.2-8-x",
   "versions": {
-    "git": "9.14.3-7-x",
-    "npm": "9.14.2"
+    "git": "10.9.2-8-x",
+    "npm": "10.9.1"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:extra": "(cd packages/typegen && polkadot-dev-copy-dir scripts build/scripts)",
-    "build:interfaces": "node --loader @polkadot/dev/node/ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
+    "build:before": "polkadot-dev-copy-dir --cd packages/typegen scripts build",
+    "build:interfaces": "node --loader @polkadot/dev-ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
     "build:metadata": "yarn build:interfaces && polkadot-dev-run-test packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
@@ -37,14 +40,11 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
-    "@babel/register": "^7.21.0",
-    "@babel/runtime": "^7.21.0",
-    "@polkadot/dev": "^0.69.21",
+    "@polkadot/dev": "^0.75.26",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^18.14.2"
+    "@types/node": "^20.4.0"
   },
   "resolutions": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   }
 }

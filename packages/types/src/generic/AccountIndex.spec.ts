@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/* eslint-disable jest/expect-expect */
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../create';
-import { GenericAccountIndex as AccountIndex } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericAccountIndex as AccountIndex } from './index.js';
 
 describe('AccountIndex', (): void => {
   const registry = new TypeRegistry();

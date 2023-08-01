@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportTokensMiscBalanceStatus, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV4CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeProxyType, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -57,7 +57,11 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A balance was set by root.
        **/
-      BalanceSet: AugmentedEvent<ApiType, [who: AccountId32, free: u128, reserved: u128], { who: AccountId32, free: u128, reserved: u128 }>;
+      BalanceSet: AugmentedEvent<ApiType, [who: AccountId32, free: u128], { who: AccountId32, free: u128 }>;
+      /**
+       * Some amount was burned from an account.
+       **/
+      Burned: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Some amount was deposited (e.g. for transaction fees).
        **/
@@ -72,6 +76,26 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Endowed: AugmentedEvent<ApiType, [account: AccountId32, freeBalance: u128], { account: AccountId32, freeBalance: u128 }>;
       /**
+       * Some balance was frozen.
+       **/
+      Frozen: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Total issuance was increased by `amount`, creating a credit to be balanced.
+       **/
+      Issued: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
+       * Some balance was locked.
+       **/
+      Locked: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some amount was minted into an account.
+       **/
+      Minted: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Total issuance was decreased by `amount`, creating a debt to be balanced.
+       **/
+      Rescinded: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
        * Some balance was reserved (moved from free to reserved).
        **/
       Reserved: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
@@ -81,17 +105,37 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ReserveRepatriated: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128, destinationStatus: FrameSupportTokensMiscBalanceStatus], { from: AccountId32, to: AccountId32, amount: u128, destinationStatus: FrameSupportTokensMiscBalanceStatus }>;
       /**
+       * Some amount was restored into an account.
+       **/
+      Restored: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
        * Some amount was removed from the account (e.g. for misbehavior).
        **/
       Slashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some amount was suspended from an account (it can be restored later).
+       **/
+      Suspended: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some balance was thawed.
+       **/
+      Thawed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Transfer succeeded.
        **/
       Transfer: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128], { from: AccountId32, to: AccountId32, amount: u128 }>;
       /**
+       * Some balance was unlocked.
+       **/
+      Unlocked: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
        * Some balance was unreserved (moved from reserved to free).
        **/
       Unreserved: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * An account was upgraded.
+       **/
+      Upgraded: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
       /**
        * Some amount was withdrawn from the account (e.g. for transaction fees).
        **/
@@ -162,6 +206,20 @@ declare module '@polkadot/api-base/types/events' {
        * Someone claimed some DOTs.
        **/
       Claimed: AugmentedEvent<ApiType, [who: AccountId32, ethereumAddress: EthereumAddress, amount: u128], { who: AccountId32, ethereumAddress: EthereumAddress, amount: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * An account has delegated their vote to another account. \[who, target\]
+       **/
+      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      /**
+       * An \[account\] has cancelled a previous delegation operation.
+       **/
+      Undelegated: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * Generic event
        **/
@@ -395,7 +453,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * New authority set has been applied.
        **/
-      NewAuthorities: AugmentedEvent<ApiType, [authoritySet: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>], { authoritySet: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>> }>;
+      NewAuthorities: AugmentedEvent<ApiType, [authoritySet: Vec<ITuple<[SpConsensusGrandpaAppPublic, u64]>>], { authoritySet: Vec<ITuple<[SpConsensusGrandpaAppPublic, u64]>> }>;
       /**
        * Current authority set has been paused.
        **/
@@ -521,6 +579,28 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    messageQueue: {
+      /**
+       * Message placed in overweight queue.
+       **/
+      OverweightEnqueued: AugmentedEvent<ApiType, [id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, pageIndex: u32, messageIndex: u32], { id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, pageIndex: u32, messageIndex: u32 }>;
+      /**
+       * This page was reaped.
+       **/
+      PageReaped: AugmentedEvent<ApiType, [origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, index: u32], { origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, index: u32 }>;
+      /**
+       * Message is processed.
+       **/
+      Processed: AugmentedEvent<ApiType, [id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool], { id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
+      /**
+       * Message discarded due to an error in the `MessageProcessor` (usually a format error).
+       **/
+      ProcessingFailed: AugmentedEvent<ApiType, [id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, error: FrameSupportMessagesProcessMessageError], { id: U8aFixed, origin: PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, error: FrameSupportMessagesProcessMessageError }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     multisig: {
       /**
        * A multisig operation has been approved by someone.
@@ -566,6 +646,22 @@ declare module '@polkadot/api-base/types/events' {
        * A payout has been made to a member.
        **/
       PaidOut: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, payout: u128], { member: AccountId32, poolId: u32, payout: u128 }>;
+      /**
+       * A pool's commission `change_rate` has been changed.
+       **/
+      PoolCommissionChangeRateUpdated: AugmentedEvent<ApiType, [poolId: u32, changeRate: PalletNominationPoolsCommissionChangeRate], { poolId: u32, changeRate: PalletNominationPoolsCommissionChangeRate }>;
+      /**
+       * Pool commission has been claimed.
+       **/
+      PoolCommissionClaimed: AugmentedEvent<ApiType, [poolId: u32, commission: u128], { poolId: u32, commission: u128 }>;
+      /**
+       * A pool's commission setting has been changed.
+       **/
+      PoolCommissionUpdated: AugmentedEvent<ApiType, [poolId: u32, current: Option<ITuple<[Perbill, AccountId32]>>], { poolId: u32, current: Option<ITuple<[Perbill, AccountId32]>> }>;
+      /**
+       * A pool's maximum commission setting has been changed.
+       **/
+      PoolMaxCommissionUpdated: AugmentedEvent<ApiType, [poolId: u32, maxCommission: Perbill], { poolId: u32, maxCommission: Perbill }>;
       /**
        * The active balance of pool `pool_id` has been slashed to `balance`.
        **/
@@ -627,15 +723,19 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A candidate was backed. `[candidate, head_data]`
        **/
-      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
+      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate was included. `[candidate, head_data]`
        **/
-      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
+      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate timed out. `[candidate, head_data]`
        **/
-      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32]>;
+      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32]>;
+      /**
+       * Some upward messages have been received and will be processed.
+       **/
+      UpwardMessagesReceived: AugmentedEvent<ApiType, [from: u32, count: u32], { from: u32, count: u32 }>;
       /**
        * Generic event
        **/
@@ -692,11 +792,6 @@ declare module '@polkadot/api-base/types/events' {
        * A dispute has been initiated. \[candidate hash, dispute location\]
        **/
       DisputeInitiated: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeLocation]>;
-      /**
-       * A dispute has timed out due to insufficient participation.
-       * `\[para id, candidate hash\]`
-       **/
-      DisputeTimedOut: AugmentedEvent<ApiType, [H256]>;
       /**
        * A dispute has concluded with supermajority against a candidate.
        * Block authors should no longer build on top of this head and should
@@ -797,10 +892,75 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    referenda: {
+      /**
+       * A referendum has been approved and its proposal has been scheduled.
+       **/
+      Approved: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has been cancelled.
+       **/
+      Cancelled: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      ConfirmAborted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has ended its confirmation phase and is ready for approval.
+       **/
+      Confirmed: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      ConfirmStarted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * The decision deposit has been placed.
+       **/
+      DecisionDepositPlaced: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * The decision deposit has been refunded.
+       **/
+      DecisionDepositRefunded: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has moved into the deciding phase.
+       **/
+      DecisionStarted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded, tally: PalletConvictionVotingTally], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded, tally: PalletConvictionVotingTally }>;
+      /**
+       * A deposit has been slashaed.
+       **/
+      DepositSlashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has been killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      /**
+       * Metadata for a referendum has been cleared.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * Metadata for a referendum has been set.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * A proposal has been rejected by referendum.
+       **/
+      Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      /**
+       * The submission deposit has been refunded.
+       **/
+      SubmissionDepositRefunded: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has been submitted.
+       **/
+      Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded }>;
+      /**
+       * A referendum has been timed out without being decided.
+       **/
+      TimedOut: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     registrar: {
       Deregistered: AugmentedEvent<ApiType, [paraId: u32], { paraId: u32 }>;
       Registered: AugmentedEvent<ApiType, [paraId: u32, manager: AccountId32], { paraId: u32, manager: AccountId32 }>;
       Reserved: AugmentedEvent<ApiType, [paraId: u32, who: AccountId32], { paraId: u32, who: AccountId32 }>;
+      Swapped: AugmentedEvent<ApiType, [paraId: u32, otherId: u32], { paraId: u32, otherId: u32 }>;
       /**
        * Generic event
        **/
@@ -1111,53 +1271,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
-    ump: {
-      /**
-       * Upward message executed with the given outcome.
-       * \[ id, outcome \]
-       **/
-      ExecutedUpward: AugmentedEvent<ApiType, [U8aFixed, XcmV3TraitsOutcome]>;
-      /**
-       * Upward message is invalid XCM.
-       * \[ id \]
-       **/
-      InvalidFormat: AugmentedEvent<ApiType, [U8aFixed]>;
-      /**
-       * The weight budget was exceeded for an individual upward message.
-       * 
-       * This message can be later dispatched manually using `service_overweight` dispatchable
-       * using the assigned `overweight_index`.
-       * 
-       * \[ para, id, overweight_index, required \]
-       **/
-      OverweightEnqueued: AugmentedEvent<ApiType, [u32, U8aFixed, u64, SpWeightsWeightV2Weight]>;
-      /**
-       * Upward message from the overweight queue was executed with the given actual weight
-       * used.
-       * 
-       * \[ overweight_index, used \]
-       **/
-      OverweightServiced: AugmentedEvent<ApiType, [u64, SpWeightsWeightV2Weight]>;
-      /**
-       * Upward message is unsupported version of XCM.
-       * \[ id \]
-       **/
-      UnsupportedVersion: AugmentedEvent<ApiType, [U8aFixed]>;
-      /**
-       * Some upward messages have been received and will be processed.
-       * \[ para, count, size \]
-       **/
-      UpwardMessagesReceived: AugmentedEvent<ApiType, [u32, u32, u32]>;
-      /**
-       * The weight limit for handling upward messages was reached.
-       * \[ id, remaining, required \]
-       **/
-      WeightExhausted: AugmentedEvent<ApiType, [U8aFixed, SpWeightsWeightV2Weight, SpWeightsWeightV2Weight]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
     utility: {
       /**
        * Batch of dispatches completed fully with no error.
@@ -1218,39 +1331,38 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    whitelist: {
+      CallWhitelisted: AugmentedEvent<ApiType, [callHash: H256], { callHash: H256 }>;
+      WhitelistedCallDispatched: AugmentedEvent<ApiType, [callHash: H256, result: Result<FrameSupportDispatchPostDispatchInfo, SpRuntimeDispatchErrorWithPostInfo>], { callHash: H256, result: Result<FrameSupportDispatchPostDispatchInfo, SpRuntimeDispatchErrorWithPostInfo> }>;
+      WhitelistedCallRemoved: AugmentedEvent<ApiType, [callHash: H256], { callHash: H256 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     xcmPallet: {
       /**
        * Some assets have been claimed from an asset trap
-       * 
-       * \[ hash, origin, assets \]
        **/
-      AssetsClaimed: AugmentedEvent<ApiType, [H256, XcmV3MultiLocation, XcmVersionedMultiAssets]>;
+      AssetsClaimed: AugmentedEvent<ApiType, [hash_: H256, origin: XcmV3MultiLocation, assets: XcmVersionedMultiAssets], { hash_: H256, origin: XcmV3MultiLocation, assets: XcmVersionedMultiAssets }>;
       /**
        * Some assets have been placed in an asset trap.
-       * 
-       * \[ hash, origin, assets \]
        **/
-      AssetsTrapped: AugmentedEvent<ApiType, [H256, XcmV3MultiLocation, XcmVersionedMultiAssets]>;
+      AssetsTrapped: AugmentedEvent<ApiType, [hash_: H256, origin: XcmV3MultiLocation, assets: XcmVersionedMultiAssets], { hash_: H256, origin: XcmV3MultiLocation, assets: XcmVersionedMultiAssets }>;
       /**
        * Execution of an XCM message was attempted.
-       * 
-       * \[ outcome \]
        **/
-      Attempted: AugmentedEvent<ApiType, [XcmV3TraitsOutcome]>;
+      Attempted: AugmentedEvent<ApiType, [outcome: XcmV3TraitsOutcome], { outcome: XcmV3TraitsOutcome }>;
       /**
        * Fees were paid from a location for an operation (often for using `SendXcm`).
-       * 
-       * \[ paying location, fees \]
        **/
-      FeesPaid: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      FeesPaid: AugmentedEvent<ApiType, [paying: XcmV3MultiLocation, fees: XcmV3MultiassetMultiAssets], { paying: XcmV3MultiLocation, fees: XcmV3MultiassetMultiAssets }>;
       /**
        * Expected query response has been received but the querier location of the response does
        * not match the expected. The query remains registered for a later, valid, response to
        * be received and acted upon.
-       * 
-       * \[ origin location, id, expected querier, maybe actual querier \]
        **/
-      InvalidQuerier: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, XcmV3MultiLocation, Option<XcmV3MultiLocation>]>;
+      InvalidQuerier: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, queryId: u64, expectedQuerier: XcmV3MultiLocation, maybeActualQuerier: Option<XcmV3MultiLocation>], { origin: XcmV3MultiLocation, queryId: u64, expectedQuerier: XcmV3MultiLocation, maybeActualQuerier: Option<XcmV3MultiLocation> }>;
       /**
        * Expected query response has been received but the expected querier location placed in
        * storage by this runtime previously cannot be decoded. The query remains registered.
@@ -1259,18 +1371,14 @@ declare module '@polkadot/api-base/types/events' {
        * runtime should be readable prior to query timeout) and dangerous since the possibly
        * valid response will be dropped. Manual governance intervention is probably going to be
        * needed.
-       * 
-       * \[ origin location, id \]
        **/
-      InvalidQuerierVersion: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
+      InvalidQuerierVersion: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, queryId: u64], { origin: XcmV3MultiLocation, queryId: u64 }>;
       /**
        * Expected query response has been received but the origin location of the response does
        * not match that expected. The query remains registered for a later, valid, response to
        * be received and acted upon.
-       * 
-       * \[ origin location, id, expected location \]
        **/
-      InvalidResponder: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, Option<XcmV3MultiLocation>]>;
+      InvalidResponder: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, queryId: u64, expectedLocation: Option<XcmV3MultiLocation>], { origin: XcmV3MultiLocation, queryId: u64, expectedLocation: Option<XcmV3MultiLocation> }>;
       /**
        * Expected query response has been received but the expected origin location placed in
        * storage by this runtime previously cannot be decoded. The query remains registered.
@@ -1279,115 +1387,83 @@ declare module '@polkadot/api-base/types/events' {
        * runtime should be readable prior to query timeout) and dangerous since the possibly
        * valid response will be dropped. Manual governance intervention is probably going to be
        * needed.
-       * 
-       * \[ origin location, id \]
        **/
-      InvalidResponderVersion: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
+      InvalidResponderVersion: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, queryId: u64], { origin: XcmV3MultiLocation, queryId: u64 }>;
       /**
        * Query response has been received and query is removed. The registered notification has
        * been dispatched and executed successfully.
-       * 
-       * \[ id, pallet index, call index \]
        **/
-      Notified: AugmentedEvent<ApiType, [u64, u8, u8]>;
+      Notified: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8], { queryId: u64, palletIndex: u8, callIndex: u8 }>;
       /**
        * Query response has been received and query is removed. The dispatch was unable to be
        * decoded into a `Call`; this might be due to dispatch function having a signature which
        * is not `(origin, QueryId, Response)`.
-       * 
-       * \[ id, pallet index, call index \]
        **/
-      NotifyDecodeFailed: AugmentedEvent<ApiType, [u64, u8, u8]>;
+      NotifyDecodeFailed: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8], { queryId: u64, palletIndex: u8, callIndex: u8 }>;
       /**
        * Query response has been received and query is removed. There was a general error with
        * dispatching the notification call.
-       * 
-       * \[ id, pallet index, call index \]
        **/
-      NotifyDispatchError: AugmentedEvent<ApiType, [u64, u8, u8]>;
+      NotifyDispatchError: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8], { queryId: u64, palletIndex: u8, callIndex: u8 }>;
       /**
        * Query response has been received and query is removed. The registered notification could
        * not be dispatched because the dispatch weight is greater than the maximum weight
        * originally budgeted by this runtime for the query result.
-       * 
-       * \[ id, pallet index, call index, actual weight, max budgeted weight \]
        **/
-      NotifyOverweight: AugmentedEvent<ApiType, [u64, u8, u8, SpWeightsWeightV2Weight, SpWeightsWeightV2Weight]>;
+      NotifyOverweight: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8, actualWeight: SpWeightsWeightV2Weight, maxBudgetedWeight: SpWeightsWeightV2Weight], { queryId: u64, palletIndex: u8, callIndex: u8, actualWeight: SpWeightsWeightV2Weight, maxBudgetedWeight: SpWeightsWeightV2Weight }>;
       /**
        * A given location which had a version change subscription was dropped owing to an error
        * migrating the location to our new XCM format.
-       * 
-       * \[ location, query ID \]
        **/
-      NotifyTargetMigrationFail: AugmentedEvent<ApiType, [XcmVersionedMultiLocation, u64]>;
+      NotifyTargetMigrationFail: AugmentedEvent<ApiType, [location: XcmVersionedMultiLocation, queryId: u64], { location: XcmVersionedMultiLocation, queryId: u64 }>;
       /**
        * A given location which had a version change subscription was dropped owing to an error
        * sending the notification to it.
-       * 
-       * \[ location, query ID, error \]
        **/
-      NotifyTargetSendFail: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, XcmV3TraitsError]>;
+      NotifyTargetSendFail: AugmentedEvent<ApiType, [location: XcmV3MultiLocation, queryId: u64, error: XcmV3TraitsError], { location: XcmV3MultiLocation, queryId: u64, error: XcmV3TraitsError }>;
       /**
        * Query response has been received and is ready for taking with `take_response`. There is
        * no registered notification call.
-       * 
-       * \[ id, response \]
        **/
-      ResponseReady: AugmentedEvent<ApiType, [u64, XcmV3Response]>;
+      ResponseReady: AugmentedEvent<ApiType, [queryId: u64, response: XcmV3Response], { queryId: u64, response: XcmV3Response }>;
       /**
        * Received query response has been read and removed.
-       * 
-       * \[ id \]
        **/
-      ResponseTaken: AugmentedEvent<ApiType, [u64]>;
+      ResponseTaken: AugmentedEvent<ApiType, [queryId: u64], { queryId: u64 }>;
       /**
        * A XCM message was sent.
-       * 
-       * \[ origin, destination, message \]
        **/
-      Sent: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiLocation, XcmV3Xcm]>;
+      Sent: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, destination: XcmV3MultiLocation, message: XcmV3Xcm, messageId: U8aFixed], { origin: XcmV3MultiLocation, destination: XcmV3MultiLocation, message: XcmV3Xcm, messageId: U8aFixed }>;
       /**
        * The supported version of a location has been changed. This might be through an
        * automatic notification or a manual intervention.
-       * 
-       * \[ location, XCM version \]
        **/
-      SupportedVersionChanged: AugmentedEvent<ApiType, [XcmV3MultiLocation, u32]>;
+      SupportedVersionChanged: AugmentedEvent<ApiType, [location: XcmV3MultiLocation, version: u32], { location: XcmV3MultiLocation, version: u32 }>;
       /**
        * Query response received which does not match a registered query. This may be because a
        * matching query was never registered, it may be because it is a duplicate response, or
        * because the query timed out.
-       * 
-       * \[ origin location, id \]
        **/
-      UnexpectedResponse: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
+      UnexpectedResponse: AugmentedEvent<ApiType, [origin: XcmV3MultiLocation, queryId: u64], { origin: XcmV3MultiLocation, queryId: u64 }>;
       /**
        * An XCM version change notification message has been attempted to be sent.
        * 
        * The cost of sending it (borne by the chain) is included.
-       * 
-       * \[ destination, result, cost \]
        **/
-      VersionChangeNotified: AugmentedEvent<ApiType, [XcmV3MultiLocation, u32, XcmV3MultiassetMultiAssets]>;
+      VersionChangeNotified: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, result: u32, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, result: u32, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**
-       * We have requested that a remote chain sends us XCM version change notifications.
-       * 
-       * \[ destination location, cost \]
+       * We have requested that a remote chain send us XCM version change notifications.
        **/
-      VersionNotifyRequested: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      VersionNotifyRequested: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**
        * A remote has requested XCM version change notification from us and we have honored it.
        * A version information message is sent to them and its cost is included.
-       * 
-       * \[ destination location, cost \]
        **/
-      VersionNotifyStarted: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      VersionNotifyStarted: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**
        * We have requested that a remote chain stops sending us XCM version change notifications.
-       * 
-       * \[ destination location, cost \]
        **/
-      VersionNotifyUnrequested: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      VersionNotifyUnrequested: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**
        * Generic event
        **/

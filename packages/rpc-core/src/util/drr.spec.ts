@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { of, timer } from 'rxjs';
 
-import { drr } from '.';
+import { drr } from './index.js';
 
 describe('drr', (): void => {
   it('should not fire twice the same value', async (): Promise<void> => {

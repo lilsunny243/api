@@ -1,14 +1,13 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { Request } from '../mock/mockWs';
+import type { Request } from '../mock/mockWs.js';
+import type { Mock } from '../mock/types.js';
 
-import { mockWs } from '../mock/mockWs';
-import { Mock } from '../mock/types';
-import { WsProvider } from './';
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 
@@ -40,10 +39,12 @@ describe('Ws', (): void => {
     ).toEqual(false);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('allows you to initialize the provider with custom headers', () => {
     createWs([], 100, { foo: 'bar' });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('allows you to set custom timeout value for handlers', () => {
     const CUSTOM_TIMEOUT_S = 90;
     const CUSTOM_TIMEOUT_MS = CUSTOM_TIMEOUT_S * 1000;
@@ -53,6 +54,7 @@ describe('Ws', (): void => {
 });
 
 describe('Endpoint Parsing', (): void => {
+  // eslint-disable-next-line jest/expect-expect
   it('Succeeds when WsProvider endpoint is a valid string', () => {
     /* eslint-disable no-new */
     new WsProvider(TEST_WS_URL, 0);
@@ -64,6 +66,7 @@ describe('Endpoint Parsing', (): void => {
     ).toThrow(/^Endpoint should start with /);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('Succeeds when WsProvider endpoint is a valid array', () => {
     const endpoints: string[] = ['ws://127.0.0.1:9955', 'wss://testnet.io:9944', 'ws://mychain.com:9933'];
 

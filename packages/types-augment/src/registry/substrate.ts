@@ -5,7 +5,7 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/types/registry';
 
-import type { FinalityGrandpaEquivocationPrecommit, FinalityGrandpaEquivocationPrevote, FinalityGrandpaPrecommit, FinalityGrandpaPrevote, FrameBenchmarkingPalletPovCall, FrameBenchmarkingPalletPovEvent, FrameSupportDispatchDispatchClass, FrameSupportDispatchDispatchInfo, FrameSupportDispatchPays, FrameSupportDispatchPerDispatchClassU32, FrameSupportDispatchPerDispatchClassWeight, FrameSupportDispatchPerDispatchClassWeightsPerClass, FrameSupportDispatchPostDispatchInfo, FrameSupportDispatchRawOrigin, FrameSupportMessagesProcessMessageError, FrameSupportPalletId, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscAttributeNamespace, FrameSupportTokensMiscBalanceStatus, FrameSystemAccountInfo, FrameSystemCall, FrameSystemError, FrameSystemEvent, FrameSystemEventRecord, FrameSystemExtensionsCheckGenesis, FrameSystemExtensionsCheckNonZeroSender, FrameSystemExtensionsCheckNonce, FrameSystemExtensionsCheckSpecVersion, FrameSystemExtensionsCheckTxVersion, FrameSystemExtensionsCheckWeight, FrameSystemLastRuntimeUpgradeInfo, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, FrameSystemLimitsWeightsPerClass, FrameSystemPhase, KitchensinkRuntimeNposSolution16, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntime, KitchensinkRuntimeSessionKeys, PalletAllianceCall, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceError, PalletAllianceEvent, PalletAllianceMemberRole, PalletAllianceMultihash, PalletAllianceUnscrupulousItem, PalletAllianceVersion, PalletAssetTxPaymentChargeAssetTxPayment, PalletAssetTxPaymentEvent, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAssetsAssetStatus, PalletAssetsCall, PalletAssetsError, PalletAssetsEvent, PalletAssetsExistenceReason, PalletBabeCall, PalletBabeError, PalletBagsListCall, PalletBagsListError, PalletBagsListEvent, PalletBagsListListBag, PalletBagsListListListError, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesCall, PalletBalancesError, PalletBalancesEvent, PalletBalancesReasons, PalletBalancesReserveData, PalletBountiesBounty, PalletBountiesBountyStatus, PalletBountiesCall, PalletBountiesError, PalletBountiesEvent, PalletChildBountiesCall, PalletChildBountiesChildBounty, PalletChildBountiesChildBountyStatus, PalletChildBountiesError, PalletChildBountiesEvent, PalletCollectiveCall, PalletCollectiveError, PalletCollectiveEvent, PalletCollectiveRawOrigin, PalletCollectiveVotes, PalletContractsCall, PalletContractsError, PalletContractsEvent, PalletContractsSchedule, PalletContractsScheduleHostFnWeights, PalletContractsScheduleInstructionWeights, PalletContractsScheduleLimits, PalletContractsStorageContractInfo, PalletContractsStorageDeletedContract, PalletContractsWasmDeterminism, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletConvictionVotingCall, PalletConvictionVotingConviction, PalletConvictionVotingDelegations, PalletConvictionVotingError, PalletConvictionVotingEvent, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletConvictionVotingVoteCasting, PalletConvictionVotingVoteDelegating, PalletConvictionVotingVotePriorLock, PalletConvictionVotingVoteVoting, PalletDemocracyCall, PalletDemocracyConviction, PalletDemocracyDelegations, PalletDemocracyError, PalletDemocracyEvent, PalletDemocracyMetadataOwner, PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyTally, PalletDemocracyVoteAccountVote, PalletDemocracyVotePriorLock, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhaseCall, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhaseError, PalletElectionProviderMultiPhaseEvent, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenCall, PalletElectionsPhragmenError, PalletElectionsPhragmenEvent, PalletElectionsPhragmenRenouncing, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletFastUnstakeCall, PalletFastUnstakeError, PalletFastUnstakeEvent, PalletFastUnstakeUnstakeRequest, PalletGluttonCall, PalletGluttonError, PalletGluttonEvent, PalletGrandpaCall, PalletGrandpaError, PalletGrandpaEvent, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityBitFlags, PalletIdentityCall, PalletIdentityError, PalletIdentityEvent, PalletIdentityIdentityField, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineCall, PalletImOnlineError, PalletImOnlineEvent, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Public, PalletImOnlineSr25519AppSr25519Signature, PalletIndicesCall, PalletIndicesError, PalletIndicesEvent, PalletLotteryCall, PalletLotteryError, PalletLotteryEvent, PalletLotteryLotteryConfig, PalletMembershipCall, PalletMembershipError, PalletMembershipEvent, PalletMessageQueueBookState, PalletMessageQueueCall, PalletMessageQueueError, PalletMessageQueueEvent, PalletMessageQueueNeighbours, PalletMessageQueuePage, PalletMultisigCall, PalletMultisigError, PalletMultisigEvent, PalletMultisigMultisig, PalletMultisigTimepoint, PalletNftsAttributeDeposit, PalletNftsCall, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsCollectionRole, PalletNftsCollectionSetting, PalletNftsDestroyWitness, PalletNftsError, PalletNftsEvent, PalletNftsItemConfig, PalletNftsItemDeposit, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsItemMetadataDeposit, PalletNftsItemSetting, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintType, PalletNftsMintWitness, PalletNftsPalletFeature, PalletNftsPendingSwap, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceDirection, PalletNftsPriceWithDirection, PalletNisBid, PalletNisCall, PalletNisError, PalletNisEvent, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondExtra, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsCall, PalletNominationPoolsClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsDefensiveError, PalletNominationPoolsError, PalletNominationPoolsEvent, PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles, PalletNominationPoolsPoolState, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletNominationPoolsUnbondPool, PalletOffencesEvent, PalletPreimageCall, PalletPreimageError, PalletPreimageEvent, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyCall, PalletProxyError, PalletProxyEvent, PalletProxyProxyDefinition, PalletRankedCollectiveCall, PalletRankedCollectiveError, PalletRankedCollectiveEvent, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryCall, PalletRecoveryError, PalletRecoveryEvent, PalletRecoveryRecoveryConfig, PalletReferendaCall, PalletReferendaCurve, PalletReferendaDecidingStatus, PalletReferendaDeposit, PalletReferendaError, PalletReferendaEvent, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackInfo, PalletRemarkCall, PalletRemarkError, PalletRemarkEvent, PalletRootTestingCall, PalletSchedulerCall, PalletSchedulerError, PalletSchedulerEvent, PalletSchedulerScheduled, PalletSessionCall, PalletSessionError, PalletSessionEvent, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyCall, PalletSocietyError, PalletSocietyEvent, PalletSocietyJudgement, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingIndividualExposure, PalletStakingNominations, PalletStakingPalletCall, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingPalletError, PalletStakingPalletEvent, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationCall, PalletStateTrieMigrationError, PalletStateTrieMigrationEvent, PalletStateTrieMigrationMigrationCompute, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletSudoCall, PalletSudoError, PalletSudoEvent, PalletTimestampCall, PalletTipsCall, PalletTipsError, PalletTipsEvent, PalletTipsOpenTip, PalletTransactionPaymentEvent, PalletTransactionPaymentReleases, PalletTransactionStorageCall, PalletTransactionStorageError, PalletTransactionStorageEvent, PalletTransactionStorageTransactionInfo, PalletTreasuryCall, PalletTreasuryError, PalletTreasuryEvent, PalletTreasuryProposal, PalletUniquesCall, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesDestroyWitness, PalletUniquesError, PalletUniquesEvent, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletUtilityCall, PalletUtilityError, PalletUtilityEvent, PalletVestingCall, PalletVestingError, PalletVestingEvent, PalletVestingReleases, PalletVestingVestingInfo, PalletWhitelistCall, PalletWhitelistError, PalletWhitelistEvent, SpArithmeticArithmeticError, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAllowedSlots, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBabeDigestsPrimaryPreDigest, SpConsensusBabeDigestsSecondaryPlainPreDigest, SpConsensusBabeDigestsSecondaryVRFPreDigest, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpCoreEcdsaSignature, SpCoreEd25519Public, SpCoreEd25519Signature, SpCoreOffchainOpaqueNetworkState, SpCoreSr25519Public, SpCoreSr25519Signature, SpCoreVoid, SpFinalityGrandpaAppPublic, SpFinalityGrandpaAppSignature, SpFinalityGrandpaEquivocation, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeBlakeTwo256, SpRuntimeDigest, SpRuntimeDigestDigestItem, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpRuntimeHeader, SpRuntimeModuleError, SpRuntimeMultiSignature, SpRuntimeTokenError, SpRuntimeTransactionalError, SpSessionMembershipProof, SpStakingOffenceOffenceDetails, SpTransactionStorageProofTransactionStorageProof, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FinalityGrandpaEquivocationPrecommit, FinalityGrandpaEquivocationPrevote, FinalityGrandpaPrecommit, FinalityGrandpaPrevote, FrameBenchmarkingPalletPovCall, FrameBenchmarkingPalletPovEvent, FrameSupportDispatchDispatchClass, FrameSupportDispatchDispatchInfo, FrameSupportDispatchPays, FrameSupportDispatchPerDispatchClassU32, FrameSupportDispatchPerDispatchClassWeight, FrameSupportDispatchPerDispatchClassWeightsPerClass, FrameSupportDispatchPostDispatchInfo, FrameSupportDispatchRawOrigin, FrameSupportMessagesProcessMessageError, FrameSupportPalletId, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscBalanceStatus, FrameSystemAccountInfo, FrameSystemCall, FrameSystemError, FrameSystemEvent, FrameSystemEventRecord, FrameSystemExtensionsCheckGenesis, FrameSystemExtensionsCheckNonZeroSender, FrameSystemExtensionsCheckNonce, FrameSystemExtensionsCheckSpecVersion, FrameSystemExtensionsCheckTxVersion, FrameSystemExtensionsCheckWeight, FrameSystemLastRuntimeUpgradeInfo, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, FrameSystemLimitsWeightsPerClass, FrameSystemPhase, KitchensinkRuntimeNposSolution16, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntime, KitchensinkRuntimeRuntimeHoldReason, KitchensinkRuntimeSessionKeys, PalletAllianceCall, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceError, PalletAllianceEvent, PalletAllianceMemberRole, PalletAllianceMultihash, PalletAllianceUnscrupulousItem, PalletAllianceVersion, PalletAssetConversionCall, PalletAssetConversionError, PalletAssetConversionEvent, PalletAssetConversionNativeOrAssetId, PalletAssetConversionPoolInfo, PalletAssetRateCall, PalletAssetRateError, PalletAssetRateEvent, PalletAssetTxPaymentChargeAssetTxPayment, PalletAssetTxPaymentEvent, PalletAssetsAccountStatus, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAssetsAssetStatus, PalletAssetsCall, PalletAssetsError, PalletAssetsEvent, PalletAssetsExistenceReason, PalletBabeCall, PalletBabeError, PalletBagsListCall, PalletBagsListError, PalletBagsListEvent, PalletBagsListListBag, PalletBagsListListListError, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesCall, PalletBalancesError, PalletBalancesEvent, PalletBalancesIdAmount, PalletBalancesReasons, PalletBalancesReserveData, PalletBountiesBounty, PalletBountiesBountyStatus, PalletBountiesCall, PalletBountiesError, PalletBountiesEvent, PalletChildBountiesCall, PalletChildBountiesChildBounty, PalletChildBountiesChildBountyStatus, PalletChildBountiesError, PalletChildBountiesEvent, PalletCollectiveCall, PalletCollectiveError, PalletCollectiveEvent, PalletCollectiveRawOrigin, PalletCollectiveVotes, PalletContractsCall, PalletContractsError, PalletContractsEvent, PalletContractsOrigin, PalletContractsSchedule, PalletContractsScheduleHostFnWeights, PalletContractsScheduleInstructionWeights, PalletContractsScheduleLimits, PalletContractsStorageContractInfo, PalletContractsStorageDeletionQueueManager, PalletContractsWasmDeterminism, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletConvictionVotingCall, PalletConvictionVotingConviction, PalletConvictionVotingDelegations, PalletConvictionVotingError, PalletConvictionVotingEvent, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletConvictionVotingVoteCasting, PalletConvictionVotingVoteDelegating, PalletConvictionVotingVotePriorLock, PalletConvictionVotingVoteVoting, PalletCoreFellowshipCall, PalletCoreFellowshipError, PalletCoreFellowshipEvent, PalletCoreFellowshipMemberStatus, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyCall, PalletDemocracyConviction, PalletDemocracyDelegations, PalletDemocracyError, PalletDemocracyEvent, PalletDemocracyMetadataOwner, PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyTally, PalletDemocracyVoteAccountVote, PalletDemocracyVotePriorLock, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhaseCall, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhaseError, PalletElectionProviderMultiPhaseEvent, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenCall, PalletElectionsPhragmenError, PalletElectionsPhragmenEvent, PalletElectionsPhragmenRenouncing, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletFastUnstakeCall, PalletFastUnstakeError, PalletFastUnstakeEvent, PalletFastUnstakeUnstakeRequest, PalletGluttonCall, PalletGluttonError, PalletGluttonEvent, PalletGrandpaCall, PalletGrandpaError, PalletGrandpaEvent, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityBitFlags, PalletIdentityCall, PalletIdentityError, PalletIdentityEvent, PalletIdentityIdentityField, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineCall, PalletImOnlineError, PalletImOnlineEvent, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Public, PalletImOnlineSr25519AppSr25519Signature, PalletIndicesCall, PalletIndicesError, PalletIndicesEvent, PalletLotteryCall, PalletLotteryError, PalletLotteryEvent, PalletLotteryLotteryConfig, PalletMembershipCall, PalletMembershipError, PalletMembershipEvent, PalletMessageQueueBookState, PalletMessageQueueCall, PalletMessageQueueError, PalletMessageQueueEvent, PalletMessageQueueNeighbours, PalletMessageQueuePage, PalletMultisigCall, PalletMultisigError, PalletMultisigEvent, PalletMultisigMultisig, PalletMultisigTimepoint, PalletNftFractionalizationCall, PalletNftFractionalizationDetails, PalletNftFractionalizationError, PalletNftFractionalizationEvent, PalletNftFractionalizationHoldReason, PalletNftsAttributeDeposit, PalletNftsAttributeNamespace, PalletNftsCall, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsCollectionRole, PalletNftsCollectionSetting, PalletNftsDestroyWitness, PalletNftsError, PalletNftsEvent, PalletNftsItemConfig, PalletNftsItemDeposit, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsItemMetadataDeposit, PalletNftsItemSetting, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintType, PalletNftsMintWitness, PalletNftsPalletAttributes, PalletNftsPalletFeature, PalletNftsPendingSwap, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceDirection, PalletNftsPriceWithDirection, PalletNisBid, PalletNisCall, PalletNisError, PalletNisEvent, PalletNisHoldReason, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondExtra, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsCall, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsDefensiveError, PalletNominationPoolsError, PalletNominationPoolsEvent, PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles, PalletNominationPoolsPoolState, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletNominationPoolsUnbondPool, PalletOffencesEvent, PalletPreimageCall, PalletPreimageError, PalletPreimageEvent, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyCall, PalletProxyError, PalletProxyEvent, PalletProxyProxyDefinition, PalletRankedCollectiveCall, PalletRankedCollectiveError, PalletRankedCollectiveEvent, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryCall, PalletRecoveryError, PalletRecoveryEvent, PalletRecoveryRecoveryConfig, PalletReferendaCall, PalletReferendaCurve, PalletReferendaDecidingStatus, PalletReferendaDeposit, PalletReferendaError, PalletReferendaEvent, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackInfo, PalletRemarkCall, PalletRemarkError, PalletRemarkEvent, PalletRootTestingCall, PalletSalaryCall, PalletSalaryClaimState, PalletSalaryClaimantStatus, PalletSalaryError, PalletSalaryEvent, PalletSalaryStatusType, PalletSchedulerCall, PalletSchedulerError, PalletSchedulerEvent, PalletSchedulerScheduled, PalletSessionCall, PalletSessionError, PalletSessionEvent, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyCall, PalletSocietyError, PalletSocietyEvent, PalletSocietyJudgement, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingIndividualExposure, PalletStakingNominations, PalletStakingPalletCall, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingPalletError, PalletStakingPalletEvent, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationCall, PalletStateTrieMigrationError, PalletStateTrieMigrationEvent, PalletStateTrieMigrationMigrationCompute, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletStatementEvent, PalletSudoCall, PalletSudoError, PalletSudoEvent, PalletTimestampCall, PalletTipsCall, PalletTipsError, PalletTipsEvent, PalletTipsOpenTip, PalletTransactionPaymentEvent, PalletTransactionPaymentReleases, PalletTransactionStorageCall, PalletTransactionStorageError, PalletTransactionStorageEvent, PalletTransactionStorageTransactionInfo, PalletTreasuryCall, PalletTreasuryError, PalletTreasuryEvent, PalletTreasuryProposal, PalletUniquesCall, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesDestroyWitness, PalletUniquesError, PalletUniquesEvent, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletUtilityCall, PalletUtilityError, PalletUtilityEvent, PalletVestingCall, PalletVestingError, PalletVestingEvent, PalletVestingReleases, PalletVestingVestingInfo, PalletWhitelistCall, PalletWhitelistError, PalletWhitelistEvent, SpArithmeticArithmeticError, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAllowedSlots, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBabeDigestsPrimaryPreDigest, SpConsensusBabeDigestsSecondaryPlainPreDigest, SpConsensusBabeDigestsSecondaryVRFPreDigest, SpConsensusGrandpaAppPublic, SpConsensusGrandpaAppSignature, SpConsensusGrandpaEquivocation, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpCoreEcdsaSignature, SpCoreEd25519Public, SpCoreEd25519Signature, SpCoreOffchainOpaqueNetworkState, SpCoreSr25519Public, SpCoreSr25519Signature, SpCoreSr25519VrfVrfSignature, SpCoreVoid, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeBlakeTwo256, SpRuntimeDigest, SpRuntimeDigestDigestItem, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpRuntimeHeader, SpRuntimeModuleError, SpRuntimeMultiSignature, SpRuntimeTokenError, SpRuntimeTransactionalError, SpSessionMembershipProof, SpStakingOffenceOffenceDetails, SpStatementStoreProof, SpStatementStoreStatement, SpTransactionStorageProofTransactionStorageProof, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 declare module '@polkadot/types/types/registry' {
   interface InterfaceTypes {
@@ -27,7 +27,6 @@ declare module '@polkadot/types/types/registry' {
     FrameSupportPalletId: FrameSupportPalletId;
     FrameSupportPreimagesBounded: FrameSupportPreimagesBounded;
     FrameSupportScheduleDispatchTime: FrameSupportScheduleDispatchTime;
-    FrameSupportTokensMiscAttributeNamespace: FrameSupportTokensMiscAttributeNamespace;
     FrameSupportTokensMiscBalanceStatus: FrameSupportTokensMiscBalanceStatus;
     FrameSystemAccountInfo: FrameSystemAccountInfo;
     FrameSystemCall: FrameSystemCall;
@@ -49,6 +48,7 @@ declare module '@polkadot/types/types/registry' {
     KitchensinkRuntimeOriginCaller: KitchensinkRuntimeOriginCaller;
     KitchensinkRuntimeProxyType: KitchensinkRuntimeProxyType;
     KitchensinkRuntimeRuntime: KitchensinkRuntimeRuntime;
+    KitchensinkRuntimeRuntimeHoldReason: KitchensinkRuntimeRuntimeHoldReason;
     KitchensinkRuntimeSessionKeys: KitchensinkRuntimeSessionKeys;
     PalletAllianceCall: PalletAllianceCall;
     PalletAllianceCid: PalletAllianceCid;
@@ -59,8 +59,17 @@ declare module '@polkadot/types/types/registry' {
     PalletAllianceMultihash: PalletAllianceMultihash;
     PalletAllianceUnscrupulousItem: PalletAllianceUnscrupulousItem;
     PalletAllianceVersion: PalletAllianceVersion;
+    PalletAssetConversionCall: PalletAssetConversionCall;
+    PalletAssetConversionError: PalletAssetConversionError;
+    PalletAssetConversionEvent: PalletAssetConversionEvent;
+    PalletAssetConversionNativeOrAssetId: PalletAssetConversionNativeOrAssetId;
+    PalletAssetConversionPoolInfo: PalletAssetConversionPoolInfo;
+    PalletAssetRateCall: PalletAssetRateCall;
+    PalletAssetRateError: PalletAssetRateError;
+    PalletAssetRateEvent: PalletAssetRateEvent;
     PalletAssetTxPaymentChargeAssetTxPayment: PalletAssetTxPaymentChargeAssetTxPayment;
     PalletAssetTxPaymentEvent: PalletAssetTxPaymentEvent;
+    PalletAssetsAccountStatus: PalletAssetsAccountStatus;
     PalletAssetsApproval: PalletAssetsApproval;
     PalletAssetsAssetAccount: PalletAssetsAssetAccount;
     PalletAssetsAssetDetails: PalletAssetsAssetDetails;
@@ -83,6 +92,7 @@ declare module '@polkadot/types/types/registry' {
     PalletBalancesCall: PalletBalancesCall;
     PalletBalancesError: PalletBalancesError;
     PalletBalancesEvent: PalletBalancesEvent;
+    PalletBalancesIdAmount: PalletBalancesIdAmount;
     PalletBalancesReasons: PalletBalancesReasons;
     PalletBalancesReserveData: PalletBalancesReserveData;
     PalletBountiesBounty: PalletBountiesBounty;
@@ -103,12 +113,13 @@ declare module '@polkadot/types/types/registry' {
     PalletContractsCall: PalletContractsCall;
     PalletContractsError: PalletContractsError;
     PalletContractsEvent: PalletContractsEvent;
+    PalletContractsOrigin: PalletContractsOrigin;
     PalletContractsSchedule: PalletContractsSchedule;
     PalletContractsScheduleHostFnWeights: PalletContractsScheduleHostFnWeights;
     PalletContractsScheduleInstructionWeights: PalletContractsScheduleInstructionWeights;
     PalletContractsScheduleLimits: PalletContractsScheduleLimits;
     PalletContractsStorageContractInfo: PalletContractsStorageContractInfo;
-    PalletContractsStorageDeletedContract: PalletContractsStorageDeletedContract;
+    PalletContractsStorageDeletionQueueManager: PalletContractsStorageDeletionQueueManager;
     PalletContractsWasmDeterminism: PalletContractsWasmDeterminism;
     PalletContractsWasmOwnerInfo: PalletContractsWasmOwnerInfo;
     PalletContractsWasmPrefabWasmModule: PalletContractsWasmPrefabWasmModule;
@@ -123,6 +134,12 @@ declare module '@polkadot/types/types/registry' {
     PalletConvictionVotingVoteDelegating: PalletConvictionVotingVoteDelegating;
     PalletConvictionVotingVotePriorLock: PalletConvictionVotingVotePriorLock;
     PalletConvictionVotingVoteVoting: PalletConvictionVotingVoteVoting;
+    PalletCoreFellowshipCall: PalletCoreFellowshipCall;
+    PalletCoreFellowshipError: PalletCoreFellowshipError;
+    PalletCoreFellowshipEvent: PalletCoreFellowshipEvent;
+    PalletCoreFellowshipMemberStatus: PalletCoreFellowshipMemberStatus;
+    PalletCoreFellowshipParamsType: PalletCoreFellowshipParamsType;
+    PalletCoreFellowshipWish: PalletCoreFellowshipWish;
     PalletDemocracyCall: PalletDemocracyCall;
     PalletDemocracyConviction: PalletDemocracyConviction;
     PalletDemocracyDelegations: PalletDemocracyDelegations;
@@ -201,7 +218,13 @@ declare module '@polkadot/types/types/registry' {
     PalletMultisigEvent: PalletMultisigEvent;
     PalletMultisigMultisig: PalletMultisigMultisig;
     PalletMultisigTimepoint: PalletMultisigTimepoint;
+    PalletNftFractionalizationCall: PalletNftFractionalizationCall;
+    PalletNftFractionalizationDetails: PalletNftFractionalizationDetails;
+    PalletNftFractionalizationError: PalletNftFractionalizationError;
+    PalletNftFractionalizationEvent: PalletNftFractionalizationEvent;
+    PalletNftFractionalizationHoldReason: PalletNftFractionalizationHoldReason;
     PalletNftsAttributeDeposit: PalletNftsAttributeDeposit;
+    PalletNftsAttributeNamespace: PalletNftsAttributeNamespace;
     PalletNftsCall: PalletNftsCall;
     PalletNftsCancelAttributesApprovalWitness: PalletNftsCancelAttributesApprovalWitness;
     PalletNftsCollectionConfig: PalletNftsCollectionConfig;
@@ -222,6 +245,7 @@ declare module '@polkadot/types/types/registry' {
     PalletNftsMintSettings: PalletNftsMintSettings;
     PalletNftsMintType: PalletNftsMintType;
     PalletNftsMintWitness: PalletNftsMintWitness;
+    PalletNftsPalletAttributes: PalletNftsPalletAttributes;
     PalletNftsPalletFeature: PalletNftsPalletFeature;
     PalletNftsPendingSwap: PalletNftsPendingSwap;
     PalletNftsPreSignedAttributes: PalletNftsPreSignedAttributes;
@@ -232,13 +256,17 @@ declare module '@polkadot/types/types/registry' {
     PalletNisCall: PalletNisCall;
     PalletNisError: PalletNisError;
     PalletNisEvent: PalletNisEvent;
+    PalletNisHoldReason: PalletNisHoldReason;
     PalletNisReceiptRecord: PalletNisReceiptRecord;
     PalletNisSummaryRecord: PalletNisSummaryRecord;
     PalletNominationPoolsBondExtra: PalletNominationPoolsBondExtra;
     PalletNominationPoolsBondedPoolInner: PalletNominationPoolsBondedPoolInner;
     PalletNominationPoolsCall: PalletNominationPoolsCall;
     PalletNominationPoolsClaimPermission: PalletNominationPoolsClaimPermission;
+    PalletNominationPoolsCommission: PalletNominationPoolsCommission;
+    PalletNominationPoolsCommissionChangeRate: PalletNominationPoolsCommissionChangeRate;
     PalletNominationPoolsConfigOpAccountId32: PalletNominationPoolsConfigOpAccountId32;
+    PalletNominationPoolsConfigOpPerbill: PalletNominationPoolsConfigOpPerbill;
     PalletNominationPoolsConfigOpU128: PalletNominationPoolsConfigOpU128;
     PalletNominationPoolsConfigOpU32: PalletNominationPoolsConfigOpU32;
     PalletNominationPoolsDefensiveError: PalletNominationPoolsDefensiveError;
@@ -286,6 +314,12 @@ declare module '@polkadot/types/types/registry' {
     PalletRemarkError: PalletRemarkError;
     PalletRemarkEvent: PalletRemarkEvent;
     PalletRootTestingCall: PalletRootTestingCall;
+    PalletSalaryCall: PalletSalaryCall;
+    PalletSalaryClaimState: PalletSalaryClaimState;
+    PalletSalaryClaimantStatus: PalletSalaryClaimantStatus;
+    PalletSalaryError: PalletSalaryError;
+    PalletSalaryEvent: PalletSalaryEvent;
+    PalletSalaryStatusType: PalletSalaryStatusType;
     PalletSchedulerCall: PalletSchedulerCall;
     PalletSchedulerError: PalletSchedulerError;
     PalletSchedulerEvent: PalletSchedulerEvent;
@@ -328,6 +362,7 @@ declare module '@polkadot/types/types/registry' {
     PalletStateTrieMigrationMigrationLimits: PalletStateTrieMigrationMigrationLimits;
     PalletStateTrieMigrationMigrationTask: PalletStateTrieMigrationMigrationTask;
     PalletStateTrieMigrationProgress: PalletStateTrieMigrationProgress;
+    PalletStatementEvent: PalletStatementEvent;
     PalletSudoCall: PalletSudoCall;
     PalletSudoError: PalletSudoError;
     PalletSudoEvent: PalletSudoEvent;
@@ -375,6 +410,10 @@ declare module '@polkadot/types/types/registry' {
     SpConsensusBabeDigestsPrimaryPreDigest: SpConsensusBabeDigestsPrimaryPreDigest;
     SpConsensusBabeDigestsSecondaryPlainPreDigest: SpConsensusBabeDigestsSecondaryPlainPreDigest;
     SpConsensusBabeDigestsSecondaryVRFPreDigest: SpConsensusBabeDigestsSecondaryVRFPreDigest;
+    SpConsensusGrandpaAppPublic: SpConsensusGrandpaAppPublic;
+    SpConsensusGrandpaAppSignature: SpConsensusGrandpaAppSignature;
+    SpConsensusGrandpaEquivocation: SpConsensusGrandpaEquivocation;
+    SpConsensusGrandpaEquivocationProof: SpConsensusGrandpaEquivocationProof;
     SpConsensusSlotsEquivocationProof: SpConsensusSlotsEquivocationProof;
     SpCoreCryptoKeyTypeId: SpCoreCryptoKeyTypeId;
     SpCoreEcdsaSignature: SpCoreEcdsaSignature;
@@ -383,11 +422,8 @@ declare module '@polkadot/types/types/registry' {
     SpCoreOffchainOpaqueNetworkState: SpCoreOffchainOpaqueNetworkState;
     SpCoreSr25519Public: SpCoreSr25519Public;
     SpCoreSr25519Signature: SpCoreSr25519Signature;
+    SpCoreSr25519VrfVrfSignature: SpCoreSr25519VrfVrfSignature;
     SpCoreVoid: SpCoreVoid;
-    SpFinalityGrandpaAppPublic: SpFinalityGrandpaAppPublic;
-    SpFinalityGrandpaAppSignature: SpFinalityGrandpaAppSignature;
-    SpFinalityGrandpaEquivocation: SpFinalityGrandpaEquivocation;
-    SpFinalityGrandpaEquivocationProof: SpFinalityGrandpaEquivocationProof;
     SpNposElectionsElectionScore: SpNposElectionsElectionScore;
     SpNposElectionsSupport: SpNposElectionsSupport;
     SpRuntimeBlakeTwo256: SpRuntimeBlakeTwo256;
@@ -402,6 +438,8 @@ declare module '@polkadot/types/types/registry' {
     SpRuntimeTransactionalError: SpRuntimeTransactionalError;
     SpSessionMembershipProof: SpSessionMembershipProof;
     SpStakingOffenceOffenceDetails: SpStakingOffenceOffenceDetails;
+    SpStatementStoreProof: SpStatementStoreProof;
+    SpStatementStoreStatement: SpStatementStoreStatement;
     SpTransactionStorageProofTransactionStorageProof: SpTransactionStorageProofTransactionStorageProof;
     SpVersionRuntimeVersion: SpVersionRuntimeVersion;
     SpWeightsRuntimeDbWeight: SpWeightsRuntimeDbWeight;

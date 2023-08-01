@@ -1,11 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TypeRegistry } from '../create';
-import { GenericExtrinsicEra as ExtrinsicEra } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericExtrinsicEra as ExtrinsicEra } from './index.js';
 
 describe('ExtrinsicEra', (): void => {
   const registry = new TypeRegistry();
@@ -38,7 +37,7 @@ describe('ExtrinsicEra', (): void => {
     expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(120);
   });
 
-  it.only('serializes and de-serializes from JSON', (): void => {
+  it('serializes and de-serializes from JSON', (): void => {
     const extrinsicEra = new ExtrinsicEra(registry, new Uint8Array([78, 156]));
     const u8a = extrinsicEra.toU8a();
     const json = extrinsicEra.toJSON();

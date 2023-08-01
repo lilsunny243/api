@@ -1,17 +1,18 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 /* eslint-disable sort-keys */
 
+import type { Bool, Option } from '@polkadot/types-codec';
 import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
-import { Bool, Enum, Option, Struct, Text, U32, Vec } from '@polkadot/types-codec';
+import { Enum, Struct, Text, U32, Vec } from '@polkadot/types-codec';
+import { stringify } from '@polkadot/util';
 
-import { TEST_A } from './Struct.data';
+import { TEST_A } from './Struct.data.js';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();
@@ -314,7 +315,7 @@ describe('Struct', (): void => {
           counter: U32,
           vector: Vec.with('AccountId')
         }).toRawType()
-      ).toEqual(JSON.stringify({
+      ).toEqual(stringify({
         accountId: 'AccountId',
         balanceCompact: 'Compact<Balance>', // Override in Uint
         blockNumber: 'BlockNumber',
@@ -333,7 +334,7 @@ describe('Struct', (): void => {
 
       expect(
         new Type(registry).toRawType()
-      ).toEqual(JSON.stringify({
+      ).toEqual(stringify({
         accountId: 'AccountId',
         balance: 'Balance' // Override in Uint
       }));

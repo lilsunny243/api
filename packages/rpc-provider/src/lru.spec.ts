@@ -1,10 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { LRUCache } from './lru';
+import { LRUCache } from './lru.js';
 
 describe('LRUCache', (): void => {
   it('allows getting of items below capacity', (): void => {
